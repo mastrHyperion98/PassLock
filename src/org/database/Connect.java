@@ -1,6 +1,7 @@
 package org.database;
 import java.sql.*;
 import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class Connect {
     private String database;
@@ -29,7 +30,17 @@ public class Connect {
         statement.executeUpdate();
     }
 
-    public void FetchEntries(){
-        Dictionary
+    public Dictionary<String, String> fetchEntries() throws SQLException {
+        Dictionary<String, String> dictionary = new Hashtable();
+
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery("SELECT domain, password FROM Password");
+
+        // loop and add to dictionary
+        while (results.next()) {
+            dictionary.put(results.getString(1), results.getString(2));
+        }
+
+        return dictionary;
     }
 }

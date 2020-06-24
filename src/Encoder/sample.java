@@ -3,6 +3,8 @@ package Encoder;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Dictionary;
+import java.util.Iterator;
 
 import org.database.Connect;
 public class sample {
@@ -17,7 +19,15 @@ public class sample {
         String file = "src/data/sqlite.db";
         Connect connect = new Connect(file);
         try {
-                connect.writeEntry("www.Facebook.com", "Panther98@123");
+                //connect.writeEntry("www.Facebook.com", "Panther98@123");
+            Dictionary<String, String> results = connect.fetchEntries();
+            Iterator<String> it = results.keys().asIterator();
+
+            while (it.hasNext()){
+                String key = it.next();
+                System.out.println("Domain: " + key + "\nPassword: "+results.get(key));
+            }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
