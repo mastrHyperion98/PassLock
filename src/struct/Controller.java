@@ -1,5 +1,5 @@
-/*
-Controller will contain the logic and commands executed by the JavaFX application.
+package struct;/*
+struct.Controller will contain the logic and commands executed by the JavaFX application.
  */
 
 import Encoder.AES;
@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.io.FileWriter;   // Import the FileWriter class
 
@@ -50,6 +54,10 @@ public class Controller {
         file.createNewFile();
         FileWriter writer = new FileWriter(file);
         writer.write(AES.encrypt(password));
+        // set the file to readonly and hidden
+        file.setReadable(true, true);
+        file.setWritable(false, false);
+        Files.setAttribute(file.toPath(), "dos:hidden", true, LinkOption.NOFOLLOW_LINKS);
         writer.close();
     }
 
