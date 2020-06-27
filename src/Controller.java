@@ -3,6 +3,7 @@ Controller will contain the logic and commands executed by the JavaFX applicatio
  */
 
 import Encoder.AES;
+import org.database.Session;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,8 +16,11 @@ public class Controller {
     private String databse;
     private boolean isAuth;
     private final String AUTH_FILE = "src/data/auth.txt";
+    private Session session;
     public Controller(){
-
+        isAuth = false;
+        databse = "src/data/sqlite.db";
+        session = new Session(databse);
     }
 
     public boolean auth(String password){
