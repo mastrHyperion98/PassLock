@@ -3,19 +3,22 @@ import java.sql.*;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class Connect {
+public class Session {
     private String database;
     private Connection  connection = null;
-    public Connect(String _database){
-        try {
+    public Session(String _database){
         database = _database;
-        connection = DriverManager.getConnection("jdbc:sqlite:"+database);
+        connect();
     }
+
+    private void connect(){
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:"+database);
+        }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
-
     public boolean isOpen() throws SQLException {
         if (connection != null)
             return connection.isClosed();
