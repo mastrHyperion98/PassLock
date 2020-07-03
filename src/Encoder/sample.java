@@ -11,10 +11,7 @@ import struct.Controller;
 
 public class sample {
     public static void main(String[] args) throws IOException {
-      struct.Controller controller = new Controller();
-      controller.createAuthFile("Pokemon");
-      print(controller.isAuthExist());
-      print(controller.auth("Pokemon"));
+        Controller controller = new Controller();
     }
 
     public static void print(Object x){
