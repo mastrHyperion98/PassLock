@@ -21,8 +21,8 @@ public class AES {
 
     // Ideally this should be changed later to fetch a system environment variable
     // This ensure different result on different computers
-    private static String secretKey = "passwordporjectmanager!!!!";
-    private static String salt = "saltyicecreamterminator!!!";
+    private static String secretKey = "123passwordporjectmanager!!!!";
+    private static String salt = "321saltyicecreamterminator!!!";
 
     public static String encrypt(String strToEncrypt)
     {
