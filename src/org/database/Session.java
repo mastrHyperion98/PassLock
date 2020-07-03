@@ -12,7 +12,6 @@ public class Session {
         database = _database;
         connect();
     }
-
     private void connect(){
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:"+database);
@@ -36,8 +35,8 @@ public class Session {
 
     public boolean createTable(String masterPassword){
         String domain = "__master__";
-        String password = AES.encrypt(masterPassword);
-        boolean isCreated = false;
+        String password = masterPassword;
+        boolean isCreated;
 
         try {
             Statement statement = connection.createStatement();
@@ -51,7 +50,7 @@ public class Session {
             isCreated = true;
             writeEntry(domain,password);
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+           isCreated = false;
         }
 
         return isCreated;
@@ -82,6 +81,16 @@ public class Session {
         }
 
         return dictionary;
+    }
+
+    public boolean isAuth(String password) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery("SELECT domain, password FROM Password where domain=\"__master__\"");
+
+        // loop and add to dictionary
+       if (results.next())
+           return results.getString(2).equals(AES.encrypt(password));
+       return false;
     }
 }
 

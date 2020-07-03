@@ -18,15 +18,26 @@ import java.io.FileWriter;   // Import the FileWriter class
 
 public class Controller {
     private String databse;
+    private String sample_master = "123456789";
     private boolean isAuth;
     private Session session;
+    private boolean isNew;
     public Controller(){
         isAuth = false;
         databse = "src/data/sqlite.db";
         session = new Session(databse);
-        if(!session.exist())
-            session.createTable("1234565678");
+        isNew = session.exist();
     }
-
+    public boolean GenerateDatabase(String masterpassword){
+        String password = AES.encrypt(masterpassword);
+        return session.createTable(password);
+    }
+    public void auth(String password){
+        try {
+            isAuth= session.isAuth(password);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
 }
