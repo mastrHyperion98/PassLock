@@ -21,23 +21,29 @@ public class Controller {
     private String sample_master = "123456789";
     private boolean isAuth;
     private Session session;
-    private boolean isNew;
+    private boolean exist;
     public Controller(){
         isAuth = false;
         databse = "src/data/sqlite.db";
         session = new Session(databse);
-        isNew = session.exist();
+        exist = session.exist();
+        GenerateDatabase(sample_master);
     }
     public boolean GenerateDatabase(String masterpassword){
         String password = AES.encrypt(masterpassword);
         return session.createTable(password);
     }
-    public void auth(String password){
+    public boolean auth(String password){
         try {
             isAuth= session.isAuth(password);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return  isAuth;
+    }
+
+    public boolean Exist(){
+        return exist;
     }
 
 }
