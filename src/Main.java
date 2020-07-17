@@ -3,6 +3,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import scenes.FirstTimeController;
 import scenes.LoginController;
 import struct.Controller;
 
@@ -23,6 +24,8 @@ public class Main extends Application {
         }
         else{
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/first_time.fxml"));
+            FirstTimeController.setController(_controller);
+            FirstTimeController.setStage(stage);
             scene = new Scene(root, 400, 300);
             title="First Time Initialization";
         }

@@ -27,7 +27,6 @@ public class Controller {
         databse = "src/data/sqlite.db";
         session = new Session(databse);
         exist = session.exist();
-        GenerateDatabase(sample_master);
     }
     public boolean GenerateDatabase(String masterpassword){
         String password = AES.encrypt(masterpassword);
