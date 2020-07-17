@@ -51,6 +51,7 @@ public class Session {
             writeEntry(domain,password);
         } catch (SQLException throwables) {
            isCreated = false;
+           throwables.printStackTrace();
         }
 
         return isCreated;
