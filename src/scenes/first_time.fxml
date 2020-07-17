@@ -9,7 +9,7 @@
 <GridPane fx:controller="scenes.LoginController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
-    <Text text="First Time User: Please enter a master password to secure your instance!"
+    <Text text="First Time User: Please enter a master password!"
           GridPane.columnIndex="0" GridPane.rowIndex="0"
           GridPane.columnSpan="2"/>
 

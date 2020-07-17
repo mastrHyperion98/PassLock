@@ -17,8 +17,9 @@ public class Main extends Application {
         if(_controller.Exist()){
             Parent root = loader.load(getClass().getResource("/scenes/login.fxml"));
             LoginController.setController(_controller);
+            LoginController.setStage(stage);
             scene = new Scene(root, 400, 300);
-            title="Welcome";
+            title="Signum";
         }
         else{
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/first_time.fxml"));
