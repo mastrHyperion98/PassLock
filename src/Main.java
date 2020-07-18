@@ -16,14 +16,14 @@ public class Main extends Application {
         Scene scene;
         String title;
         if(_controller.Exist()){
-            Parent root = loader.load(getClass().getResource("/scenes/login.fxml"));
+            Parent root = loader.load(getClass().getResource("scenes/login.fxml"));
             LoginController.setController(_controller);
             LoginController.setStage(stage);
             scene = new Scene(root, 400, 300);
             title="Signum";
         }
         else{
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/first_time.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("scenes/first_time.fxml"));
             FirstTimeController.setController(_controller);
             FirstTimeController.setStage(stage);
             scene = new Scene(root, 400, 300);

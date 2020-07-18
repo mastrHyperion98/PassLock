@@ -24,7 +24,12 @@ public class Controller {
     private boolean exist;
     public Controller(){
         isAuth = false;
-        databse = "src/data/sqlite.db";
+        String home = System.getProperty("user.home");
+        File directory = new File(home + "/Signum");
+        if(!directory.exists())
+            directory.mkdir();
+
+        databse = directory.getPath()+"\\sqlite.db";
         session = new Session(databse);
         exist = session.exist();
     }
