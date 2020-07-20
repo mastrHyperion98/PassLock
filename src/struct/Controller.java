@@ -13,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.sql.SQLException;
 import java.util.Dictionary;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.io.FileWriter;   // Import the FileWriter class
 
@@ -32,6 +34,19 @@ public class Controller {
         databse = directory.getPath()+"\\sqlite.db";
         session = new Session(databse);
         exist = session.exist();
+        try {
+            List<Password> list = session.fetchEntries();
+
+            Iterator<Password>  iter = list.iterator();
+            while(iter.hasNext()){
+                Password next = iter.next();
+                System.out.println("id: " + next.getId() + "\nDomain: "+ next.getDomain()+
+                        "\nEmail: " + next.getEmail() + "\nUsername: " + next.getUsername()+
+                        "\nPassword: " + AES.decrypt(next.getPassword()));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
     public boolean GenerateDatabase(String masterpassword){
         String password = AES.encrypt(masterpassword);

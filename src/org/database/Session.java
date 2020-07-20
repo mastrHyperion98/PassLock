@@ -126,15 +126,3 @@ public class Session {
        return false;
     }
 }
-
-/*
-
-CREATE TABLE "Password" (
-	"id"	INTEGER,
-	"Email"     TEXT NOT NULL,
-	"Username"  TEXT NOT NULL,
-	"Domain"	TEXT NOT NULL,
-	"Password"	TEXT NOT NULL,
-	PRIMARY KEY("id" AUTOINCREMENT)
-);
- */
