@@ -1,28 +1,16 @@
-package struct;/*
-struct.Controller will contain the logic and commands executed by the JavaFX application.
- */
+package struct;
 
 import Encoder.AES;
 import org.database.Session;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.sql.SQLException;
-import java.util.Dictionary;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
-import java.io.FileWriter;   // Import the FileWriter class
 
 public class Controller {
     private String databse;
-    private String sample_master = "123456789";
     private boolean isAuth;
-    private Session session;
+    private final Session session;
     private boolean exist;
     public Controller(){
         isAuth = false;
@@ -35,8 +23,8 @@ public class Controller {
         session = new Session(databse);
         exist = session.exist();
         try {
+            System.out.println("--DEBUG--");
             List<Password> list = session.fetchEntries();
-
             Iterator<Password>  iter = list.iterator();
             while(iter.hasNext()){
                 Password next = iter.next();
@@ -50,7 +38,9 @@ public class Controller {
     }
     public boolean GenerateDatabase(String masterpassword){
         String password = AES.encrypt(masterpassword);
-        return session.createTable(password);
+
+        exist = session.createTable(password);
+        return exist;
     }
     public boolean auth(String password){
         try {
