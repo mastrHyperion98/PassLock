@@ -1,36 +1,33 @@
-package struct;/*
-struct.Controller will contain the logic and commands executed by the JavaFX application.
- */
+package struct;
 
 import Encoder.AES;
 import org.database.Session;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.sql.SQLException;
-import java.util.Dictionary;
-import java.util.Scanner;
-import java.io.FileWriter;   // Import the FileWriter class
+import java.util.Iterator;
+import java.util.List;
 
 public class Controller {
     private String databse;
-    private String sample_master = "123456789";
     private boolean isAuth;
-    private Session session;
+    private final Session session;
     private boolean exist;
     public Controller(){
         isAuth = false;
-        databse = "src/data/sqlite.db";
+        String home = System.getProperty("user.home");
+        File directory = new File(home + "/Signum");
+        if(!directory.exists())
+            directory.mkdir();
+
+        databse = directory.getPath()+"\\sqlite.db";
         session = new Session(databse);
         exist = session.exist();
     }
     public boolean GenerateDatabase(String masterpassword){
         String password = AES.encrypt(masterpassword);
-        return session.createTable(password);
+
+        exist = session.createTable(password);
+        return exist;
     }
     public boolean auth(String password){
         try {
@@ -45,4 +42,7 @@ public class Controller {
         return exist;
     }
 
+    public final Session getSession(){
+        return session;
+    }
 }

@@ -23,9 +23,15 @@ public class LoginController {
         boolean valid = myController.auth(passwordField.getText());
 
         if (valid){
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/first_time.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+            Parent root = fxmlLoader.load();
+            TableViewController tableViewController = fxmlLoader.<TableViewController>getController();
+            tableViewController.setController(myController);
             Scene scene = new Scene(root, 400, 300);
             main_stage.setScene(scene);
+            main_stage.setMinWidth(800);
+            main_stage.setMinHeight(400);
+            main_stage.setResizable(true);
         }
 
         else{
