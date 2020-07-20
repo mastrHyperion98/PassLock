@@ -1,11 +1,11 @@
 package org.database;
+
 import Encoder.AES;
 import struct.Password;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Hashtable;
 
 public class Session {
     private String database;

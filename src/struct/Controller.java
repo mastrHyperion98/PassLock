@@ -2,10 +2,9 @@ package struct;
 
 import Encoder.AES;
 import org.database.Session;
+
 import java.io.File;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
 
 public class Controller {
     private String databse;

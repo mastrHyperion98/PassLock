@@ -1,11 +1,12 @@
 package scenes;
+
 import Encoder.AES;
 import javafx.collections.ObservableList;
-        import javafx.event.ActionEvent;
-        import javafx.fxml.FXML;
-        import javafx.scene.Node;
-        import javafx.scene.control.TextField;
-        import javafx.stage.Stage;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import struct.Password;
 
 import java.sql.SQLException;
