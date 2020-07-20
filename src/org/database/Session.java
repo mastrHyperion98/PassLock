@@ -1,8 +1,10 @@
 package org.database;
 import Encoder.AES;
+import struct.Password;
 
 import java.sql.*;
-import java.util.Dictionary;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Hashtable;
 
 public class Session {
@@ -42,13 +44,15 @@ public class Session {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE \"Password\" (\n" +
                     "\t\"id\"\tINTEGER,\n" +
+                    "\t\"Email\"\tTEXT NOT NULL UNIQUE,\n" +
+                    "\t\"Username\"\tTEXT NOT NULL UNIQUE,\n" +
                     "\t\"Domain\"\tTEXT NOT NULL UNIQUE,\n" +
                     "\t\"Password\"\tTEXT NOT NULL,\n" +
                     "\tPRIMARY KEY(\"id\" AUTOINCREMENT)\n" +
                     ")";
             statement.execute(query);
             isCreated = true;
-            writeEntry(domain,password);
+            writeMasterEntry(domain,password);
         } catch (SQLException throwables) {
            isCreated = false;
            throwables.printStackTrace();
@@ -62,26 +66,54 @@ public class Session {
         return false;
     }
 
-    public void writeEntry(String domain, String password) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, password)"+
-                " VALUES (?,?)");
+    public void writeEntry(String domain, String email, String username, String password) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)"+
+                " VALUES (?,?,?,?)");
         statement.setString(1, domain);
-        statement.setString(2, password);
+        statement.setString(2, email);
+        statement.setString(3, username);
+        statement.setString(4, password);
         statement.executeUpdate();
     }
 
-    public Dictionary<String, String> fetchEntries() throws SQLException {
-        Dictionary<String, String> dictionary = new Hashtable();
+    public void writeEntry(String domain, String email, String password) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, password)"+
+                " VALUES (?,?,?,?)");
+        statement.setString(1, domain);
+        statement.setString(2, email);
+        statement.setString(3, "NA");
+        statement.setString(4, password);
+        statement.executeUpdate();
+    }
+
+    private void writeMasterEntry(String domain,String password) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, password)"+
+                " VALUES (?,?,?,?)");
+        statement.setString(1, domain);
+        statement.setString(2, "NA");
+        statement.setString(3, "NA");
+        statement.setString(4, password);
+        statement.executeUpdate();
+    }
+
+    public List<Password> fetchEntries() throws SQLException {
+        List<Password> list = new LinkedList<>();
 
         Statement statement = connection.createStatement();
-        ResultSet results = statement.executeQuery("SELECT domain, password FROM Password where domain!=\"__master__\"");
+        ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain!=\"__master__\"");
 
         // loop and add to dictionary
         while (results.next()) {
-            dictionary.put(results.getString(1), results.getString(2));
+            int id = results.getInt(1);
+            String domain = results.getString(2);
+            String email = results.getString(3);
+            String username = results.getString(4);
+            String password = results.getString(5);
+            Password entry = new Password(id,domain,username,email,password);
+            list.add(entry);
         }
 
-        return dictionary;
+        return list;
     }
 
     public boolean isAuth(String password) throws SQLException {
@@ -99,6 +131,8 @@ public class Session {
 
 CREATE TABLE "Password" (
 	"id"	INTEGER,
+	"Email"     TEXT NOT NULL,
+	"Username"  TEXT NOT NULL,
 	"Domain"	TEXT NOT NULL,
 	"Password"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
