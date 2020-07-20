@@ -23,7 +23,7 @@ public class LoginController {
         boolean valid = myController.auth(passwordField.getText());
 
         if (valid){
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/first_time.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/scenes/TableView.fxml"));
             Scene scene = new Scene(root, 400, 300);
             main_stage.setScene(scene);
         }
