@@ -5,37 +5,37 @@ import javafx.collections.ObservableList;
         import javafx.scene.Node;
         import javafx.scene.control.TextField;
         import javafx.stage.Stage;
+import struct.Password;
 
 public class AddEntryDialogController   {
-
     @FXML
-    private TextField tfId;
-
+    private TextField tfDomain;
     @FXML
-    private TextField tfName;
-
+    private TextField tfEmail;
     @FXML
-    private TextField tfAge;
+    private TextField tfUsername;
+    @FXML
+    private TextField tfPassword;
 
-    //private ObservableList<Person> appMainObservableList;
+    private ObservableList<Password> appMainObservableList;
 
     @FXML
     void btnAddPersonClicked(ActionEvent event) {
         System.out.println("btnAddPersonClicked");
-        int id = Integer.valueOf(tfId.getText().trim());
-        String name = tfName.getText().trim();
-        int iAge = Integer.valueOf(tfAge.getText().trim());
-
-        //Person data = new Person(id, name, iAge);
-        //appMainObservableList.add(data);
+        String domain = tfDomain.getText().trim();
+        String email = tfEmail.getText().trim();
+        String username = tfUsername.getText().trim();
+        String password = tfPassword.getText().trim();
+        Password data = new Password(1, domain, username, email, password);
+        appMainObservableList.add(data);
 
         closeStage(event);
     }
 
-    //public void setAppMainObservableList(ObservableList<Person> tvObservableList) {
-        //this.appMainObservableList = tvObservableList;
+    public void setAppMainObservableList(ObservableList<Password> observableList) {
+        this.appMainObservableList = observableList;
 
-   // }
+    }
 
     private void closeStage(ActionEvent event) {
         Node  source = (Node)  event.getSource();

@@ -26,6 +26,9 @@ public class LoginController {
             Parent root = FXMLLoader.load(getClass().getResource("/scenes/TableView.fxml"));
             Scene scene = new Scene(root, 400, 300);
             main_stage.setScene(scene);
+            main_stage.setMinWidth(800);
+            main_stage.setMinHeight(400);
+            main_stage.setResizable(true);
         }
 
         else{

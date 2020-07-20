@@ -13,29 +13,35 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import struct.Password;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class TableViewController implements Initializable {
 
-    /*@FXML
-    private TableView<Person> tvData;*/
+    @FXML
+    private TableView<Password> data;
     @FXML
     private TableColumn colId;
     @FXML
-    private TableColumn colName;
+    private TableColumn colDomain;
     @FXML
-    private TableColumn colAge;
+    private TableColumn colEmail;
+    @FXML
+    private TableColumn colUsername;
+    @FXML
+    private TableColumn colPassword;
 
-   // private ObservableList<Person> tvObservableList = FXCollections.observableArrayList();
+   private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
 
     @FXML
     void onOpenDialog(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddEntry.fxml"));
         Parent parent = fxmlLoader.load();
-       // AddPersonDialogController dialogController = fxmlLoader.<AddPersonDialogController>getController();
-      //  dialogController.setAppMainObservableList(tvObservableList);
+        AddEntryDialogController dialogController = fxmlLoader.<AddEntryDialogController>getController();
+        dialogController.setAppMainObservableList(entryObservableList);
 
         Scene scene = new Scene(parent, 300, 200);
         Stage stage = new Stage();
@@ -47,9 +53,11 @@ public class TableViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        colAge.setCellValueFactory(new PropertyValueFactory<>("age"));
-        //tvData.setItems(tvObservableList);
+        colDomain.setCellValueFactory(new PropertyValueFactory<>("Domain"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("Email"));
+        colUsername.setCellValueFactory(new PropertyValueFactory<>("Username"));
+        colPassword.setCellValueFactory(new PropertyValueFactory<>("Password"));
+        data.setItems(entryObservableList);
     }
 
 }

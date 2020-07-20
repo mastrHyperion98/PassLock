@@ -16,8 +16,8 @@
                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adding Person Dialog" />
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Id" />
-                        <TextField fx:id="tfId" HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Domain" />
+                        <TextField fx:id="tfDomain" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
@@ -25,8 +25,8 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Name" />
-                        <TextField fx:id="tfName" HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Email" />
+                        <TextField fx:id="tfEmail" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
@@ -34,8 +34,17 @@
                 </HBox>
                 <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
                     <children>
-                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Age" />
-                        <TextField fx:id="tfAge" HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Username" />
+                        <TextField fx:id="tfUsername" HBox.hgrow="ALWAYS" />
+                    </children>
+                    <padding>
+                        <Insets right="30.0" />
+                    </padding>
+                </HBox>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                    <children>
+                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Password" />
+                        <TextField fx:id="tfPassword" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
