@@ -34,7 +34,8 @@ public class TableViewController implements Initializable {
     @FXML
     private TableColumn colPassword;
 
-   private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
+    private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
+    private struct.Controller myController;
 
     @FXML
     void onOpenDialog(ActionEvent event) throws IOException {
@@ -42,7 +43,7 @@ public class TableViewController implements Initializable {
         Parent parent = fxmlLoader.load();
         AddEntryDialogController dialogController = fxmlLoader.<AddEntryDialogController>getController();
         dialogController.setAppMainObservableList(entryObservableList);
-
+        dialogController.setController(myController);
         Scene scene = new Scene(parent, 300, 200);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -58,6 +59,11 @@ public class TableViewController implements Initializable {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("Username"));
         colPassword.setCellValueFactory(new PropertyValueFactory<>("Password"));
         data.setItems(entryObservableList);
+    }
+
+    public void setController(struct.Controller _controller){
+
+        myController = _controller;
     }
 
 }

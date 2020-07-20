@@ -55,4 +55,7 @@ public class Controller {
         return exist;
     }
 
+    public final Session getSession(){
+        return session;
+    }
 }
