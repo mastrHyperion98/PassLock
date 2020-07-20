@@ -30,16 +30,15 @@ public class AddEntryDialogController   {
         String email = tfEmail.getText().trim();
         String username = tfUsername.getText().trim();
         String password = tfPassword.getText().trim();
-        Password data = new Password(1, domain, username, email, AES.encrypt(password));
+
 
         try {
-            myController.getSession().writeEntry(domain,email,username,password);
+            myController.getSession().writeEntry(domain,email,username,AES.encrypt(password));
+            Password data = myController.getSession().fetchEntry(domain);
+            appMainObservableList.add(data);
         } catch (SQLException throwables) {
             System.out.println("ERROR--DUPLICATE");
         }
-
-        appMainObservableList.add(data);
-
         closeStage(event);
     }
 

@@ -44,8 +44,8 @@ public class Session {
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE \"Password\" (\n" +
                     "\t\"id\"\tINTEGER,\n" +
-                    "\t\"Email\"\tTEXT NOT NULL UNIQUE,\n" +
-                    "\t\"Username\"\tTEXT NOT NULL UNIQUE,\n" +
+                    "\t\"Email\"\tTEXT NOT NULL,\n" +
+                    "\t\"Username\"\tTEXT NOT NULL,\n" +
                     "\t\"Domain\"\tTEXT NOT NULL UNIQUE,\n" +
                     "\t\"Password\"\tTEXT NOT NULL,\n" +
                     "\tPRIMARY KEY(\"id\" AUTOINCREMENT)\n" +
@@ -114,6 +114,21 @@ public class Session {
         }
 
         return list;
+    }
+
+    public Password fetchEntry(String domain) throws SQLException {
+        Statement statement = connection.createStatement();
+        ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain=\""+domain+"\"");
+
+        // loop and add to dictionary
+        int id = results.getInt(1);
+        String _domain = results.getString(2);
+        String email = results.getString(3);
+        String username = results.getString(4);
+        String password = results.getString(5);
+        Password entry = new Password(id,_domain,username,email,password);
+
+        return entry;
     }
 
     public boolean isAuth(String password) throws SQLException {

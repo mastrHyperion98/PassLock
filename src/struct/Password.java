@@ -1,5 +1,6 @@
 package struct;
 
+import Encoder.AES;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -58,10 +59,10 @@ public class Password {
     }
 
     public String getPassword(){
-        return _password.get();
+        return AES.decrypt(_password.get());
     }
 
     public void setPassword(String password){
-        _password.set(password);
+        _password.set(AES.encrypt(password));
     }
 }

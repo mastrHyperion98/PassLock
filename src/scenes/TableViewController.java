@@ -17,6 +17,7 @@ import struct.Password;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class TableViewController implements Initializable {
@@ -62,8 +63,12 @@ public class TableViewController implements Initializable {
     }
 
     public void setController(struct.Controller _controller){
-
         myController = _controller;
+        try {
+            entryObservableList.addAll(myController.getSession().fetchEntries());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 }
