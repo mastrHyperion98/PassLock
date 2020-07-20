@@ -87,7 +87,7 @@ public class Session {
     }
 
     private void writeMasterEntry(String domain,String password) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, password)"+
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)"+
                 " VALUES (?,?,?,?)");
         statement.setString(1, domain);
         statement.setString(2, "NA");
