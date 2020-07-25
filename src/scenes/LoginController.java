@@ -29,7 +29,7 @@ public class LoginController {
             tableViewController.setController(myController);
             Scene scene = new Scene(root, 400, 300);
             main_stage.setScene(scene);
-            main_stage.setMinWidth(800);
+            main_stage.setMinWidth(1000);
             main_stage.setMinHeight(400);
             main_stage.setResizable(true);
         }
