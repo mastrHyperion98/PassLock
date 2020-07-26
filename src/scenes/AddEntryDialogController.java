@@ -23,6 +23,7 @@ public class AddEntryDialogController   {
 
     private ObservableList<Password> appMainObservableList;
     private struct.Controller myController;
+    private final int PASSWORD_GEN_LENGTH=16;
 
     @FXML
     void btnAddPersonClicked(ActionEvent event) {
@@ -37,6 +38,18 @@ public class AddEntryDialogController   {
             myController.getSession().writeEntry(domain,email,username,AES.encrypt(password));
             Password data = myController.getSession().fetchEntry(domain);
             appMainObservableList.add(data);
+        } catch (SQLException throwables) {
+            System.out.println("ERROR--DUPLICATE");
+        }
+        closeStage(event);
+    }
+
+    @FXML
+    void btnGeneratePassowrd(ActionEvent event) {
+
+
+        try {
+
         } catch (SQLException throwables) {
             System.out.println("ERROR--DUPLICATE");
         }
