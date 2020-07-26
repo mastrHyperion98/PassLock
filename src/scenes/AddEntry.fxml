@@ -8,38 +8,39 @@
     <children>
         <VBox alignment="CENTER" layoutX="131.0" layoutY="50.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Adding Person Dialog" />
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Entry"/>
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" maxWidth="350.0" spacing="10.0">
                     <children>
-                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Domain" />
+                        <Label alignment="CENTER_LEFT" minWidth="100.0" text="Domain" />
                         <TextField fx:id="tfDomain" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" maxWidth="350.0" spacing="10.0">
                     <children>
-                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Email" />
+                        <Label alignment="CENTER_LEFT" minWidth="100.0" text="Email" />
                         <TextField fx:id="tfEmail" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" maxWidth="350.0" spacing="10.0">
                     <children>
-                        <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Username" />
+                        <Label alignment="CENTER_LEFT" minWidth="100.0" text="Username" />
                         <TextField fx:id="tfUsername" HBox.hgrow="ALWAYS" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
                     </padding>
                 </HBox>
-                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" spacing="10.0">
+                <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" maxWidth="500.0" spacing="10.0">
                     <children>
                         <Label alignment="CENTER_RIGHT" minWidth="100.0" text="Password" />
                         <TextField fx:id="tfPassword" HBox.hgrow="ALWAYS" />
+                        <Button mnemonicParsing="false" onAction="#btnGeneratePassowrd" text="Generate" />
                     </children>
                     <padding>
                         <Insets right="30.0" />
@@ -47,7 +48,7 @@
                 </HBox>
                 <HBox alignment="CENTER_RIGHT">
                     <children>
-                        <Button mnemonicParsing="false" onAction="#btnAddPersonClicked" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#btnAddEntryClicked" text="Add" />
                     </children>
                     <opaqueInsets>
                         <Insets />

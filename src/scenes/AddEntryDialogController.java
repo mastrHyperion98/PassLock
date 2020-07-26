@@ -9,7 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import struct.Password;
 
+import java.nio.charset.Charset;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class AddEntryDialogController   {
     @FXML
@@ -23,9 +25,10 @@ public class AddEntryDialogController   {
 
     private ObservableList<Password> appMainObservableList;
     private struct.Controller myController;
+    private final int PASSWORD_GEN_LENGTH=32;
 
     @FXML
-    void btnAddPersonClicked(ActionEvent event) {
+    void btnAddEntryClicked(ActionEvent event) {
         System.out.println("btnAddPersonClicked");
         String domain = tfDomain.getText().trim().toLowerCase();
         String email = tfEmail.getText().trim();
@@ -43,6 +46,36 @@ public class AddEntryDialogController   {
         closeStage(event);
     }
 
+    @FXML
+    void btnGeneratePassowrd(ActionEvent event) {
+        String password= getAlphaNumericString(PASSWORD_GEN_LENGTH);
+        tfPassword.setText(password);
+    }
+
+    private String getAlphaNumericString(int n){
+        String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz"
+                + "#$%&=+-!%";
+
+        // create StringBuffer size of AlphaNumericString
+        StringBuilder sb = new StringBuilder(n);
+
+        for (int i = 0; i < n; i++) {
+
+            // generate a random number between
+            // 0 to AlphaNumericString variable length
+            int index
+                    = (int)(AlphaNumericString.length()
+                    * Math.random());
+
+            // add Character one by one in end of sb
+            sb.append(AlphaNumericString
+                    .charAt(index));
+        }
+
+        return sb.toString();
+    }
     public void setAppMainObservableList(ObservableList<Password> observableList) {
         this.appMainObservableList = observableList;
     }

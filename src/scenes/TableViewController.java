@@ -45,8 +45,9 @@ public class TableViewController implements Initializable {
         AddEntryDialogController dialogController = fxmlLoader.<AddEntryDialogController>getController();
         dialogController.setAppMainObservableList(entryObservableList);
         dialogController.setController(myController);
-        Scene scene = new Scene(parent, 300, 200);
+        Scene scene = new Scene(parent, 550, 300);
         Stage stage = new Stage();
+        stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.showAndWait();
