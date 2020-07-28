@@ -57,7 +57,6 @@ public class TableViewController implements Initializable {
     void onDeleteEntry(ActionEvent event){
         Password item = data.getSelectionModel().getSelectedItem();
         boolean success = myController.getSession().deleteEntry(item.getId());
-        System.out.println("Removed Success: " + success);
         if(success)
             data.getItems().removeAll(item);
     }
