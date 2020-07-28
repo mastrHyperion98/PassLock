@@ -8,10 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import struct.Password;
-
-import java.nio.charset.Charset;
 import java.sql.SQLException;
-import java.util.Random;
 
 public class AddEntryDialogController   {
     @FXML
