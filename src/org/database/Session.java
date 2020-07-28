@@ -96,6 +96,25 @@ public class Session {
         statement.executeUpdate();
     }
 
+    /**deleteEntry deletes a database entry with the given integer id.
+     *
+     * @param id the id of the password entry to remove
+     * @return remove true if the operation is successful, false otherwise.
+     */
+    public boolean deleteEntry(int id){
+        // id == 1 is always the master password. Master password cannot be removed.
+        if(id==1)
+            return false;
+        try {
+            Statement statement = connection.createStatement();
+            String query = "DELETE from PASSWORD where id="+id;
+            statement.executeUpdate(query);
+            return true;
+        } catch (SQLException throwables) {
+            return false;
+        }
+    }
+
     public List<Password> fetchEntries() throws SQLException {
         List<Password> list = new LinkedList<>();
 
