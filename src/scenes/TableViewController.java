@@ -56,6 +56,8 @@ public class TableViewController implements Initializable {
     @FXML
     void onDeleteEntry(ActionEvent event){
         Password item = data.getSelectionModel().getSelectedItem();
+        if(item==null)
+            return;
         boolean success = myController.getSession().deleteEntry(item.getId());
         if(success)
             data.getItems().removeAll(item);
@@ -64,6 +66,8 @@ public class TableViewController implements Initializable {
     @FXML
     void onUpdateDialog(ActionEvent event) throws IOException {
         Password item = data.getSelectionModel().getSelectedItem();
+        if (item==null)
+            return;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditEntry.fxml"));
         Parent parent = fxmlLoader.load();
         UpdateEntryController dialogController = fxmlLoader.<UpdateEntryController>getController();
