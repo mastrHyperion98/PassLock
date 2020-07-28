@@ -61,6 +61,21 @@ public class TableViewController implements Initializable {
             data.getItems().removeAll(item);
     }
 
+    @FXML
+    void onUpdateDialog(ActionEvent event) throws IOException {
+        Password item = data.getSelectionModel().getSelectedItem();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditEntry.fxml"));
+        Parent parent = fxmlLoader.load();
+        UpdateEntryController dialogController = fxmlLoader.<UpdateEntryController>getController();
+        dialogController.setController(myController);
+        dialogController.setPassword(item);
+        Scene scene = new Scene(parent, 550, 300);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
