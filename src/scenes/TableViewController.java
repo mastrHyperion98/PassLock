@@ -53,6 +53,11 @@ public class TableViewController implements Initializable {
         stage.showAndWait();
     }
 
+    @FXML
+    void onDeleteEntry(ActionEvent event){
+        data.getItems().removeAll(data.getSelectionModel().getSelectedItem());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
