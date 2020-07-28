@@ -6,7 +6,6 @@
     <children>
         <VBox alignment="CENTER" layoutX="91.0" layoutY="85.0" spacing="10.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
             <children>
-                <Button mnemonicParsing="false" onAction="#onOpenDialog" text="Add Entry" />
                 <TableView fx:id="data" prefHeight="300.0" prefWidth="400.0">
                     <columns>
                         <TableColumn fx:id="colId" prefWidth="40.0" minWidth="40.0" maxWidth="40.0" text="ID" />
@@ -21,6 +20,11 @@
                     </columnResizePolicy>
                 </TableView>
             </children>
+            <HBox alignment="CENTER" layoutX="91.0" layoutY="85.0" spacing="10.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                <Button mnemonicParsing="false" onAction="#onOpenDialog" text="Add Entry" />
+                <Button mnemonicParsing="false" onAction="#onDeleteEntry" text="Delete Entry" />
+                <Button mnemonicParsing="false" onAction="#onOpenDialog" text="Edit Entry" />
+            </HBox>
         </VBox>
     </children>
 </AnchorPane>
