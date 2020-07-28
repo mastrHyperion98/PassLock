@@ -55,7 +55,11 @@ public class TableViewController implements Initializable {
 
     @FXML
     void onDeleteEntry(ActionEvent event){
-        data.getItems().removeAll(data.getSelectionModel().getSelectedItem());
+        Password item = data.getSelectionModel().getSelectedItem();
+        boolean success = myController.getSession().deleteEntry(item.getId());
+        System.out.println("Removed Success: " + success);
+        if(success)
+            data.getItems().removeAll(item);
     }
 
     @Override
