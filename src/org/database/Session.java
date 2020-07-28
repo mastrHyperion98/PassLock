@@ -115,6 +115,34 @@ public class Session {
         }
     }
 
+    /** editEntry takes a id, domain, email, username and password as inputs and updates the database field accordingly
+     *
+     * @param id is the id of the password entry to remove.
+     * @param domain the domain name of the service.
+     * @param email the email used for registration.
+     * @param username  the username, if applicable, used for the service.
+     * @param password  the unencrypted password used for the service.
+     * @return
+     */
+    public boolean editEntry(int id, String domain, String email, String username, String password){
+        // this method cannot edit master password
+        if(id==1)
+            return false;
+        password=AES.encrypt(password);
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE Password SET username=?, domain=?,email=?, password=? WHERE id=?");
+            statement.setString(1, username);
+            statement.setString(2, domain);
+            statement.setString(3,email);
+            statement.setString(4, password);
+            statement.setInt(5, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException throwables) {
+            return false;
+        }
+    }
+
     public List<Password> fetchEntries() throws SQLException {
         List<Password> list = new LinkedList<>();
 

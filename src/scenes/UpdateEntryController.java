@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import struct.Password;
 import java.sql.SQLException;
 
-public class AddEntryDialogController   {
+public class UpdateEntryController   {
     @FXML
     private TextField tfDomain;
     @FXML
@@ -20,27 +20,25 @@ public class AddEntryDialogController   {
     @FXML
     private TextField tfPassword;
 
-    private ObservableList<Password> appMainObservableList;
     private struct.Controller myController;
     private final int PASSWORD_GEN_LENGTH=32;
+    private Password password_entry;
 
     @FXML
-    void btnAddEntryClicked(ActionEvent event) {
-        System.out.println("btnAddPersonClicked");
-        String domain = tfDomain.getText().trim().toLowerCase();
-        String email = tfEmail.getText().trim();
-        String username = tfUsername.getText().trim();
-        String password = tfPassword.getText().trim();
+    void btnUpdateClicked(ActionEvent event) {
+        String domain = tfDomain.getText();
+        int id = password_entry.getId();
+        String username = tfUsername.getText();
+        String email = tfEmail.getText();
+        String password = tfPassword.getText();
 
-
-        try {
-            myController.getSession().writeEntry(domain,email,username,AES.encrypt(password));
-            Password data = myController.getSession().fetchEntry(domain);
-            appMainObservableList.add(data);
-        } catch (SQLException throwables) {
-            System.out.println("ERROR--DUPLICATE");
+        boolean success = myController.getSession().editEntry(id,domain,email,username,password);
+        if(success) {
+            password_entry.setUsername(username);
+            password_entry.setEmail(email);
+            password_entry.setPassword(password);
+            closeStage(event);
         }
-        closeStage(event);
     }
 
     @FXML
@@ -73,15 +71,21 @@ public class AddEntryDialogController   {
 
         return sb.toString();
     }
-    public void setAppMainObservableList(ObservableList<Password> observableList) {
-        this.appMainObservableList = observableList;
-    }
 
     public void setController(struct.Controller _controller){
 
         myController = _controller;
     }
 
+    public void setPassword(Password password){
+        password_entry=password;
+        tfDomain.setText(password.getDomain());
+        tfEmail.setText(password.getEmail());
+        tfUsername.setText(password.getUsername());
+        tfPassword.setText(password.getPassword());
+        // disable editing on the domain
+        tfDomain.setEditable(false);
+    }
     private void closeStage(ActionEvent event) {
         Node  source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
