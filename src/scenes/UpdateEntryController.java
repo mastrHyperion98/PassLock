@@ -20,13 +20,25 @@ public class UpdateEntryController   {
     @FXML
     private TextField tfPassword;
 
-    private ObservableList<Password> appMainObservableList;
     private struct.Controller myController;
     private final int PASSWORD_GEN_LENGTH=32;
+    private Password password_entry;
 
     @FXML
     void btnUpdateClicked(ActionEvent event) {
-    
+        String domain = tfDomain.getText();
+        int id = password_entry.getId();
+        String username = tfUsername.getText();
+        String email = tfEmail.getText();
+        String password = tfPassword.getText();
+
+        boolean success = myController.getSession().editEntry(id,domain,email,username,password);
+        if(success) {
+            password_entry.setUsername(username);
+            password_entry.setEmail(email);
+            password_entry.setPassword(password);
+            closeStage(event);
+        }
     }
 
     @FXML
@@ -59,9 +71,6 @@ public class UpdateEntryController   {
 
         return sb.toString();
     }
-    public void setAppMainObservableList(ObservableList<Password> observableList) {
-        this.appMainObservableList = observableList;
-    }
 
     public void setController(struct.Controller _controller){
 
@@ -69,6 +78,7 @@ public class UpdateEntryController   {
     }
 
     public void setPassword(Password password){
+        password_entry=password;
         tfDomain.setText(password.getDomain());
         tfEmail.setText(password.getEmail());
         tfUsername.setText(password.getUsername());
