@@ -125,6 +125,9 @@ public class Session {
      * @return
      */
     public boolean editEntry(int id, String domain, String email, String username, String password){
+        // this method cannot edit master password
+        if(id==1)
+            return false;
         password=AES.encrypt(password);
         try {
             PreparedStatement statement = connection.prepareStatement("UPDATE Password SET username=?, domain=?,email=?, password=? WHERE id=?");
