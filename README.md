@@ -14,7 +14,3 @@ Development for PasswordManager is really simple. I try to avoid using External 
 * java jdk 14.01
 
 Setup of Java and JavaFX will largely depend on your operating system and your IDE of choice. I will not cover these here, I will assume that if you want to contribute or perhaps fork the project than you have some experience with Java and know how to set it up. 
-
-# RoadMap
-
-I will be eventually posting a road map link to a Trello board whenever, i get passed alpha building and decide to slow down development and focus on smaller but important features. 
