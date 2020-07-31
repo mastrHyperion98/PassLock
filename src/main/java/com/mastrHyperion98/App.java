@@ -1,29 +1,31 @@
+package com.mastrHyperion98;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import scenes.FirstTimeController;
-import scenes.LoginController;
-import struct.Controller;
+import com.mastrHyperion98.struct.Controller;
 
-public class Main extends Application {
+import java.util.Objects;
+
+public class App extends Application {
 
     @Override
     public void start(Stage stage) throws Exception{
+
         Controller _controller = new Controller();
-        FXMLLoader loader = new FXMLLoader();
         Scene scene;
         String title;
         if(_controller.Exist()){
-            Parent root = loader.load(getClass().getResource("scenes/login.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             LoginController.setController(_controller);
             LoginController.setStage(stage);
             scene = new Scene(root, 400, 300);
             title="Signum";
         }
-        else{
-            Parent root = FXMLLoader.load(getClass().getResource("scenes/first_time.fxml"));
+      else{
+            Parent root = FXMLLoader.load(getClass().getResource("first_time.fxml"));
             FirstTimeController.setController(_controller);
             FirstTimeController.setStage(stage);
             scene = new Scene(root, 400, 300);

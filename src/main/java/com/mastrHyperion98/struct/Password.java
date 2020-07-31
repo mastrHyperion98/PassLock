@@ -1,6 +1,6 @@
-package struct;
+package com.mastrHyperion98.struct;
 
-import Encoder.AES;
+import com.mastrHyperion98.Encoder.AES;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
