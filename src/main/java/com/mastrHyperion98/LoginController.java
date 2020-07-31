@@ -1,5 +1,6 @@
-package scenes;
+package com.mastrHyperion98;
 
+import com.mastrHyperion98.struct.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,30 +13,34 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class FirstTimeController {
-    private static struct.Controller myController;
+public class LoginController {
+    private static Controller myController;
     private static Stage main_stage;
     @FXML
     private Text actiontarget;
     @FXML private PasswordField passwordField;
 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
-        String password = passwordField.getText();
-        // validate password
-        boolean valid = myController.GenerateDatabase(password);
+        boolean valid = myController.auth(passwordField.getText());
+
         if (valid){
-            Parent root = FXMLLoader.load(getClass().getResource("/scenes/login.fxml"));
-            LoginController.setController(myController);
-            LoginController.setStage(main_stage);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+            Parent root = fxmlLoader.load();
+            TableViewController tableViewController = fxmlLoader.<TableViewController>getController();
+            tableViewController.setController(myController);
             Scene scene = new Scene(root, 400, 300);
             main_stage.setScene(scene);
+            main_stage.setMinWidth(1000);
+            main_stage.setMinHeight(400);
+            main_stage.setResizable(true);
         }
+
         else{
             actiontarget.setFill(Color.RED);
-            actiontarget.setText("ERROR: Password is invalid!");
+            actiontarget.setText("ERROR: Password is Incorrect!");
         }
     }
-    public static void setController(struct.Controller _controller){
+    public static void setController(Controller _controller){
         myController = _controller;
     }
 

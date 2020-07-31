@@ -1,8 +1,6 @@
-package org.database;
-
-import Encoder.AES;
-import struct.Password;
-
+package com.mastrHyperion98.org.database;
+import com.mastrHyperion98.Encoder.AES;
+import com.mastrHyperion98.struct.Password;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;

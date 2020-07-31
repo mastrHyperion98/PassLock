@@ -1,7 +1,7 @@
-package struct;
+package com.mastrHyperion98.struct;
 
-import Encoder.AES;
-import org.database.Session;
+import com.mastrHyperion98.Encoder.AES;
+import com.mastrHyperion98.org.database.Session;
 
 import java.io.File;
 import java.sql.SQLException;

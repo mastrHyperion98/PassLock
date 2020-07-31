@@ -1,5 +1,7 @@
-package scenes;
+package com.mastrHyperion98;
 
+import com.mastrHyperion98.struct.Controller;
+import com.mastrHyperion98.struct.Password;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import struct.Password;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -36,7 +38,7 @@ public class TableViewController implements Initializable {
     private TableColumn colPassword;
 
     private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
-    private struct.Controller myController;
+    private Controller myController;
 
     @FXML
     void onOpenDialog(ActionEvent event) throws IOException {
@@ -92,7 +94,7 @@ public class TableViewController implements Initializable {
         data.setItems(entryObservableList);
     }
 
-    public void setController(struct.Controller _controller){
+    public void setController(Controller _controller){
         myController = _controller;
         try {
             entryObservableList.addAll(myController.getSession().fetchEntries());
