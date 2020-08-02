@@ -10,6 +10,7 @@ You can find the latest windows installer for the software under releases. The p
 
 The project uses maven and should be easy to setup in IntelliJ. The project uses JavaFX. Access the two links below for information on adding the sqlite jdbc drivers and javafx to maven. This should work crossplatform. 
 
+* maven is set to use JDK 11 by default. You can change those values in the pom  document. I am leaving my project config on github for reference. You should download only the src files.
 * <a href=https://openjfx.io/openjfx-docs/>JavaFX documentation and setup</a> You can find information on how to setup a javafx maven project with the major java IDE. 
 * <a href=https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.32.3.2>Maven SQLITE Xerial drivers for JDBC</a>
 * Please note: For the moment for reasons of security the project excludes the Encryption class and algorithm that are used by the application. I am looking into ways of releasing the Encryption information without comprimising on security.
