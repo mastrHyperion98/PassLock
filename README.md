@@ -4,13 +4,12 @@ PasswordManager is a project I started working on because I was tired of keeping
 
 # Releases
 
-You can find the lastest JAR files for alpha and stable releases under the releases options from Github. In order to be able to execute the JAR you need to make sure that you have Java installed on your system. 
+You can find the latest windows installer for the software under releases. The program has not yet been validated for use on Linux or Mac Os. In theory this should not be a problem but I will need to bundle appropriate JRE instances with the software and will therefore take a look at various deployement options for Linux. The development of the software on Linux and Mac should not be a problem. 
 
 # Development
 
-Development for PasswordManager is really simple. I try to avoid using External Libraries for trivial tasks, so the only pre-requisite that you need to get are:
-* javafx-sdk-14.0.1
-* sqlite-jdbc-3.30.1 
-* java jdk 14.01
+The project uses maven and should be easy to setup in IntelliJ. The project uses JavaFX. Access the two links below for information on adding the sqlite jdbc drivers and javafx to maven. This should work crossplatform. 
 
-Setup of Java and JavaFX will largely depend on your operating system and your IDE of choice. I will not cover these here, I will assume that if you want to contribute or perhaps fork the project than you have some experience with Java and know how to set it up. 
+* <a href=https://openjfx.io/openjfx-docs/>JavaFX documentation and setup</a> You can find information on how to setup a javafx maven project with the major java IDE. 
+* <a href=https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.32.3.2>Maven SQLITE Xerial drivers for JDBC</a>
+* Please note: For the moment for reasons of security the project excludes the Encryption class and algorithm that are used by the application. I am looking into ways of releasing the Encryption information without comprimising on security.
