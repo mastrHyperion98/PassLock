@@ -10,23 +10,37 @@ public class Session {
     private Connection  connection = null;
     public Session(String _database){
         database = _database;
-        connect();
     }
     private void connect(){
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:"+database);
+            System.out.println("Connection Opened");
         }
         catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
+    private void disconnect(){
+        try {
+            if(connection != null && !connection.isClosed()){
+                connection.close();
+                System.out.println("Connection Closed");
+            }
+        } catch (SQLException throwables) {
+            System.out.println("ERROR: Connection cannot be closed.");
+            throwables.printStackTrace();
+        }
+    }
+
     public boolean exist() {
+        connect();
         String query = "SELECT * FROM sqlite_master WHERE type='table' and name='Password'";
         Statement statement = null;
         try {
             statement = connection.createStatement();
             ResultSet results = statement.executeQuery(query);
+            disconnect();
             return results.next();
         } catch (SQLException throwables) {
             return false;
@@ -34,11 +48,13 @@ public class Session {
     }
 
     public boolean createTable(String masterPassword){
+
         String domain = "__master__";
         String password = masterPassword;
         boolean isCreated;
 
         try {
+            connect();
             Statement statement = connection.createStatement();
             String query = "CREATE TABLE \"Password\" (\n" +
                     "\t\"id\"\tINTEGER,\n" +
@@ -49,13 +65,14 @@ public class Session {
                     "\tPRIMARY KEY(\"id\" AUTOINCREMENT)\n" +
                     ")";
             statement.execute(query);
+            disconnect();
             isCreated = true;
             writeMasterEntry(domain,password);
         } catch (SQLException throwables) {
+           disconnect();
            isCreated = false;
            throwables.printStackTrace();
         }
-
         return isCreated;
     }
     public boolean isOpen() throws SQLException {
@@ -65,6 +82,7 @@ public class Session {
     }
 
     public void writeEntry(String domain, String email, String username, String password) throws SQLException {
+        connect();
         PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)"+
                 " VALUES (?,?,?,?)");
         statement.setString(1, domain);
@@ -72,9 +90,11 @@ public class Session {
         statement.setString(3, username);
         statement.setString(4, password);
         statement.executeUpdate();
+        disconnect();
     }
 
     public void writeEntry(String domain, String email, String password) throws SQLException {
+        connect();
         PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, password)"+
                 " VALUES (?,?,?,?)");
         statement.setString(1, domain);
@@ -82,9 +102,11 @@ public class Session {
         statement.setString(3, "NA");
         statement.setString(4, password);
         statement.executeUpdate();
+        disconnect();
     }
 
     private void writeMasterEntry(String domain,String password) throws SQLException {
+        connect();
         PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)"+
                 " VALUES (?,?,?,?)");
         statement.setString(1, domain);
@@ -92,6 +114,7 @@ public class Session {
         statement.setString(3, "NA");
         statement.setString(4, password);
         statement.executeUpdate();
+        disconnect();
     }
 
     /**deleteEntry deletes a database entry with the given integer id.
@@ -104,11 +127,14 @@ public class Session {
         if(id==1)
             return false;
         try {
+            connect();
             Statement statement = connection.createStatement();
             String query = "DELETE from PASSWORD where id="+id;
             statement.executeUpdate(query);
+            disconnect();
             return true;
         } catch (SQLException throwables) {
+            disconnect();
             return false;
         }
     }
@@ -128,6 +154,7 @@ public class Session {
             return false;
         password=AES.encrypt(password);
         try {
+            connect();
             PreparedStatement statement = connection.prepareStatement("UPDATE Password SET username=?, domain=?,email=?, password=? WHERE id=?");
             statement.setString(1, username);
             statement.setString(2, domain);
@@ -135,13 +162,16 @@ public class Session {
             statement.setString(4, password);
             statement.setInt(5, id);
             statement.executeUpdate();
+            disconnect();
             return true;
         } catch (SQLException throwables) {
+            disconnect();
             return false;
         }
     }
 
     public List<Password> fetchEntries() throws SQLException {
+        connect();
         List<Password> list = new LinkedList<>();
 
         Statement statement = connection.createStatement();
@@ -157,11 +187,12 @@ public class Session {
             Password entry = new Password(id,domain,username,email,password);
             list.add(entry);
         }
-
+        disconnect();
         return list;
     }
 
     public Password fetchEntry(String domain) throws SQLException {
+        connect();
         Statement statement = connection.createStatement();
         ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain=\""+domain+"\"");
 
@@ -172,17 +203,19 @@ public class Session {
         String username = results.getString(4);
         String password = results.getString(5);
         Password entry = new Password(id,_domain,username,email,password);
-
+        disconnect();
         return entry;
     }
 
     public boolean isAuth(String password) throws SQLException {
+        boolean return_value = false;
+        connect();
         Statement statement = connection.createStatement();
         ResultSet results = statement.executeQuery("SELECT domain, password FROM Password where domain=\"__master__\"");
-
         // loop and add to dictionary
        if (results.next())
-           return results.getString(2).equals(AES.encrypt(password));
-       return false;
+           return_value=results.getString(2).equals(AES.encrypt(password));
+       disconnect();
+       return return_value;
     }
 }

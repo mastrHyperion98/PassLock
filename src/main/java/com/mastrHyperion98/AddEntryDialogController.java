@@ -26,7 +26,6 @@ public class AddEntryDialogController   {
 
     @FXML
     void btnAddEntryClicked(ActionEvent event) {
-        System.out.println("btnAddPersonClicked");
         String domain = tfDomain.getText().trim().toLowerCase();
         String email = tfEmail.getText().trim();
         String username = tfUsername.getText().trim();
