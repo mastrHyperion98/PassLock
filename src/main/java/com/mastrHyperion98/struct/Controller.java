@@ -20,10 +20,8 @@ public class Controller {
         session = new Session(databse);
         exist = session.exist();
     }
-    public boolean GenerateDatabase(String masterpassword){
-        String password = AES.encrypt(masterpassword);
-
-        exist = session.createTable(password);
+    public boolean GenerateDatabase(){
+        exist = session.createTable();
         return exist;
     }
     public boolean Exist(){

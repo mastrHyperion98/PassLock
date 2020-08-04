@@ -18,11 +18,11 @@ public class App extends Application {
         Scene scene;
         String title;
 
-            Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-            LoginController.setController(_controller);
-            LoginController.setStage(stage);
-            scene = new Scene(root, 600, 500);
-            title="Signum";
+        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        LoginController.setController(_controller);
+        LoginController.setStage(stage);
+        scene = new Scene(root, 600, 500);
+        title="Signum";
 
         Launch(stage, scene, title);
     }
