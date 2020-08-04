@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import javafx.scene.control.TextField?>
 <GridPane alignment="center" hgap="10" prefHeight="270.0" prefWidth="502.0" style="-fx-background-color: #636e72; -fx-border-color: #0984e3; -fx-border-radius: 5px;" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.mastrHyperion98.LoginController">
     <padding><Insets bottom="10" left="25" right="25" top="25" /></padding>
     <Text fill="WHITE" text="Simple Password Manager" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
@@ -23,8 +24,8 @@
          <Font size="14.0" />
       </font></Label>
 
-    <PasswordField fx:id="passwordField" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-   <Button onAction="#handleSubmitButtonAction" style="-fx-background-color: #0984e3;" text="Generate" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="5">
+    <TextField fx:id="encryptionField" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+   <Button onAction="#generateEncryptionButtonAction" style="-fx-background-color: #0984e3;" text="Generate" textFill="WHITE" GridPane.columnIndex="4" GridPane.rowIndex="5">
       <font>
          <Font size="14.0" />
       </font>
@@ -33,7 +34,7 @@
     <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="3" GridPane.rowIndex="7" />
 
     <Text fx:id="actiontarget" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-   <Button onAction="#handleSubmitButtonAction" style="-fx-background-color: #0984e3;" text="Save" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="5">
+   <Button onAction="#saveEncryptionButtonAction" style="-fx-background-color: #0984e3;" text="Save" textFill="WHITE" GridPane.columnIndex="5" GridPane.rowIndex="5">
       <font>
          <Font size="14.0" />
       </font>
