@@ -8,11 +8,9 @@ import java.sql.SQLException;
 
 public class Controller {
     private String databse;
-    private boolean isAuth;
     private final Session session;
     private boolean exist;
     public Controller(){
-        isAuth = false;
         String home = System.getProperty("user.home");
         File directory = new File(home + "/Signum");
         if(!directory.exists())
@@ -28,19 +26,9 @@ public class Controller {
         exist = session.createTable(password);
         return exist;
     }
-    public boolean auth(String password){
-        try {
-            isAuth= session.isAuth(password);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return  isAuth;
-    }
-
     public boolean Exist(){
         return exist;
     }
-
     public final Session getSession(){
         return session;
     }
