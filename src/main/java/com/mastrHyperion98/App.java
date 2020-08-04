@@ -17,20 +17,13 @@ public class App extends Application {
         Controller _controller = new Controller();
         Scene scene;
         String title;
-        if(_controller.Exist()){
+
             Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             LoginController.setController(_controller);
             LoginController.setStage(stage);
-            scene = new Scene(root, 400, 300);
+            scene = new Scene(root, 600, 500);
             title="Signum";
-        }
-      else{
-            Parent root = FXMLLoader.load(getClass().getResource("first_time.fxml"));
-            FirstTimeController.setController(_controller);
-            FirstTimeController.setStage(stage);
-            scene = new Scene(root, 400, 300);
-            title="First Time Initialization";
-        }
+
         Launch(stage, scene, title);
     }
     public static void main(String[] args) {
