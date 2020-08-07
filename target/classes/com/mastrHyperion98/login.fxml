@@ -12,6 +12,8 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.TextField?>
+
+
 <GridPane alignment="center" hgap="10" prefHeight="270.0" prefWidth="502.0" style="-fx-background-color: #636e72; -fx-border-color: #0984e3; -fx-border-radius: 5px;" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="com.mastrHyperion98.LoginController">
     <padding><Insets bottom="10" left="25" right="25" top="25" /></padding>
     <Text fill="WHITE" text="Simple Password Manager" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
