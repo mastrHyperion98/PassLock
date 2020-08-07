@@ -7,8 +7,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
+
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -24,7 +25,7 @@ public class LoginController {
 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
 
-        if (encryptionField.getText() != ""){
+        if (!encryptionField.getText().equals("")){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
             Parent root = fxmlLoader.load();
             TableViewController tableViewController = fxmlLoader.<TableViewController>getController();
@@ -71,6 +72,9 @@ public class LoginController {
     protected void saveEncryptionButtonAction(ActionEvent event){
         //create and saves a file that is encrypted and contains our secret key either to an ini file
         // or to a .key file. (Content should obviously be encrypted) -- encryption key
+        if(encryptionField.getText().equals(""))
+            return;
+
         String home = System.getProperty("user.home");
         File directory = new File(home + "/PasswordManager/config");
         if(!directory.exists())
