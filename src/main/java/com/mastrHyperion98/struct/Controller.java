@@ -12,13 +12,16 @@ public class Controller {
     private boolean exist;
     public Controller(){
         String home = System.getProperty("user.home");
-        File directory = new File(home + "/Signum");
+        File directory = new File(home + "/PasswordManager/data");
         if(!directory.exists())
             directory.mkdir();
 
-        databse = directory.getPath()+"\\sqlite.db";
+        databse = directory.getPath()+"\\db.db";
         session = new Session(databse);
         exist = session.exist();
+        // if the database does not exist or does not contain the needed tables
+        if(!exist)
+            GenerateDatabase();
     }
     public boolean GenerateDatabase(){
         exist = session.createTable();

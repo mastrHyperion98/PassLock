@@ -69,7 +69,8 @@ public class LoginController {
     }
     @FXML
     protected void saveEncryptionButtonAction(ActionEvent event){
-        //create and saves a file that is encrypted and contains our secret key
+        //create and saves a file that is encrypted and contains our secret key either to an ini file
+        // or to a .key file. (Content should obviously be encrypted) -- encryption key
     }
     public static void setController(Controller _controller){
         myController = _controller;
