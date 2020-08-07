@@ -8,39 +8,28 @@ import java.sql.SQLException;
 
 public class Controller {
     private String databse;
-    private boolean isAuth;
     private final Session session;
     private boolean exist;
     public Controller(){
-        isAuth = false;
         String home = System.getProperty("user.home");
-        File directory = new File(home + "/Signum");
+        File directory = new File(home + "/PasswordManager/data");
         if(!directory.exists())
             directory.mkdir();
 
-        databse = directory.getPath()+"\\sqlite.db";
+        databse = directory.getPath()+"\\db.db";
         session = new Session(databse);
         exist = session.exist();
+        // if the database does not exist or does not contain the needed tables
+        if(!exist)
+            GenerateDatabase();
     }
-    public boolean GenerateDatabase(String masterpassword){
-        String password = AES.encrypt(masterpassword);
-
-        exist = session.createTable(password);
+    public boolean GenerateDatabase(){
+        exist = session.createTable();
         return exist;
     }
-    public boolean auth(String password){
-        try {
-            isAuth= session.isAuth(password);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return  isAuth;
-    }
-
     public boolean Exist(){
         return exist;
     }
-
     public final Session getSession(){
         return session;
     }

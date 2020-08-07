@@ -47,10 +47,8 @@ public class Session {
         }
     }
 
-    public boolean createTable(String masterPassword){
+    public boolean createTable(){
 
-        String domain = "__master__";
-        String password = masterPassword;
         boolean isCreated;
 
         try {
@@ -67,7 +65,6 @@ public class Session {
             statement.execute(query);
             disconnect();
             isCreated = true;
-            writeMasterEntry(domain,password);
         } catch (SQLException throwables) {
            disconnect();
            isCreated = false;
@@ -92,7 +89,6 @@ public class Session {
         statement.executeUpdate();
         disconnect();
     }
-
     public void writeEntry(String domain, String email, String password) throws SQLException {
         connect();
         PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, password)"+
@@ -104,24 +100,12 @@ public class Session {
         statement.executeUpdate();
         disconnect();
     }
-
-    private void writeMasterEntry(String domain,String password) throws SQLException {
-        connect();
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)"+
-                " VALUES (?,?,?,?)");
-        statement.setString(1, domain);
-        statement.setString(2, "NA");
-        statement.setString(3, "NA");
-        statement.setString(4, password);
-        statement.executeUpdate();
-        disconnect();
-    }
-
     /**deleteEntry deletes a database entry with the given integer id.
      *
      * @param id the id of the password entry to remove
      * @return remove true if the operation is successful, false otherwise.
      */
+
     public boolean deleteEntry(int id){
         // id == 1 is always the master password. Master password cannot be removed.
         if(id==1)
@@ -205,17 +189,5 @@ public class Session {
         Password entry = new Password(id,_domain,username,email,password);
         disconnect();
         return entry;
-    }
-
-    public boolean isAuth(String password) throws SQLException {
-        boolean return_value = false;
-        connect();
-        Statement statement = connection.createStatement();
-        ResultSet results = statement.executeQuery("SELECT domain, password FROM Password where domain=\"__master__\"");
-        // loop and add to dictionary
-       if (results.next())
-           return_value=results.getString(2).equals(AES.encrypt(password));
-       disconnect();
-       return return_value;
     }
 }
