@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.*;
 
 public class LoginController {
     private static Controller myController;
@@ -71,6 +71,20 @@ public class LoginController {
     protected void saveEncryptionButtonAction(ActionEvent event){
         //create and saves a file that is encrypted and contains our secret key either to an ini file
         // or to a .key file. (Content should obviously be encrypted) -- encryption key
+        String home = System.getProperty("user.home");
+        File directory = new File(home + "/PasswordManager/config");
+        if(!directory.exists())
+            directory.mkdir();
+        File file = new File(directory.getPath()+"/secret_key.key");
+        try {
+            FileWriter writer = new FileWriter(file);
+            AES.setSecretKey("Non-Release placeholder");
+            writer.write(AES.encrypt(encryptionField.getText()));
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     public static void setController(Controller _controller){
         myController = _controller;
