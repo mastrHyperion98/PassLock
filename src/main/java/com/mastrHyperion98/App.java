@@ -17,11 +17,11 @@ public class App extends Application {
         Scene scene;
         String title;
 
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-        LoginController.setController(_controller);
-        LoginController.setStage(stage);
-        scene = new Scene(root, 600, 500);
-        title="Signum";
+        Parent root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
+        //LoginController.setController(_controller);
+        //LoginController.setStage(stage);
+        scene = new Scene(root, 800, 500);
+        title="PasswordManager";
 
         Launch(stage, scene, title);
     }
@@ -35,5 +35,24 @@ public class App extends Application {
         stage.setResizable(false);
         stage.show();
 
+    }
+
+    /**
+     *
+     * @return true if the program can successfully load the configuration files.
+     */
+    private boolean LoadConfig(){
+        boolean success = false;
+        return success;
+    }
+
+    /**
+     *
+     * @return true if the database is valid
+     */
+    private boolean ValidateDatabase(){
+        boolean success = false;
+
+        return success;
     }
 }

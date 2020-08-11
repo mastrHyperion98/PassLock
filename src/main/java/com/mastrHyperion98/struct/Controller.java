@@ -9,28 +9,35 @@ import java.sql.SQLException;
 public class Controller {
     private String databse;
     private final Session session;
-    private boolean exist;
+    private String home;
+    private File data_directory;
+    private File config_directory;
     public Controller(){
         String home = System.getProperty("user.home");
-        File directory = new File(home + "/PasswordManager/data");
-        if(!directory.exists())
-            directory.mkdir();
+        File data_directory = new File(home + "/PasswordManager/data");
+        File config_directory = new File(home + "/PasswordManager/config");
+        if(!data_directory.exists())
+            data_directory.mkdir();
 
-        databse = directory.getPath()+"\\db.db";
+        if(!config_directory.exists())
+            config_directory.mkdir();
+
+        databse = data_directory.getPath()+"\\db.db";
         session = new Session(databse);
-        exist = session.exist();
-        // if the database does not exist or does not contain the needed tables
-        if(!exist)
-            GenerateDatabase();
     }
-    public boolean GenerateDatabase(){
-        exist = session.createTable();
-        return exist;
+    public boolean CreateDatabase(String password){
+        if(!Validate())
+            return false;
+       return session.createTable();
     }
-    public boolean Exist(){
-        return exist;
-    }
+
     public final Session getSession(){
         return session;
     }
+
+    public boolean Validate(){
+        return session.Validate();
+    }
+
+
 }
