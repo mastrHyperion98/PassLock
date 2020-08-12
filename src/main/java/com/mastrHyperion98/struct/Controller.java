@@ -57,7 +57,6 @@ public class Controller {
                 return false;
             AES.setSecretKey(KEY);
             String secretKey = AES.decrypt(file_reader.nextLine());
-            System.out.println(secretKey);
             AES.setSecretKey(secretKey);
             isSecretKeyLoaded = true;
             return true;
