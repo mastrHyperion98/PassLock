@@ -229,15 +229,16 @@ public class Session {
         return entry;
     }
 
-    private boolean Authenticate(){
+    public boolean Authenticate(){
         boolean isMatch = false;
         try {
             connect();
             Statement statement = connection.createStatement();
             ResultSet results = statement.executeQuery("SELECT domain, password FROM Password where domain=\"__master__\"");
             // loop and add to dictionary
-            if (results.next())
+            if (results.next()) {
                 isMatch = results.getString(2).equals(password);
+            }
             disconnect();
             return isMatch;
         }catch(SQLException exception){

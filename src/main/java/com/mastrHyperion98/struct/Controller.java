@@ -33,7 +33,7 @@ public class Controller {
         isSecretKeyLoaded = false;
     }
     public boolean CreateDatabase(String password){
-        session.SetPassword(AES.encrypt(password));
+        session.SetPassword(password);
        return session.createTable();
     }
 
@@ -57,6 +57,7 @@ public class Controller {
                 return false;
             AES.setSecretKey(KEY);
             String secretKey = AES.decrypt(file_reader.nextLine());
+            System.out.println(secretKey);
             AES.setSecretKey(secretKey);
             isSecretKeyLoaded = true;
             return true;
@@ -83,6 +84,11 @@ public class Controller {
             file.delete();
             return false;
         }
+    }
+
+    public boolean ValidateLogin(String password){
+        session.SetPassword(password);
+        return session.Authenticate();
     }
 
 }

@@ -26,7 +26,7 @@ public class App extends Application {
             LoginController scene_controller = fxmlLoader.<LoginController >getController();
             scene_controller.setStage(stage);
             scene_controller.setController(_controller);
-            scene = new Scene(root, 800, 500);
+            scene = new Scene(root, 500, 300);
         }
         else{
             // first time setup required

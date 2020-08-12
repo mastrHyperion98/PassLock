@@ -58,7 +58,7 @@ public class FirstTimeController {
             errorMessage.setText("ERROR: Fields cannot be empty");
             return;
         }
-        boolean isSuccessful = myController.CreateDatabase(passwordField.getText()) && myController.WriteSecretKey(encryptionField.getText());
+        boolean isSuccessful = myController.WriteSecretKey(encryptionField.getText()) && myController.CreateDatabase(passwordField.getText()) ;
 
         if(isSuccessful){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
@@ -76,8 +76,6 @@ public class FirstTimeController {
             main_stage.setMinHeight(400);
             main_stage.setResizable(true);
         }
-
-
     }
     public void setController(Controller _controller){
         myController = _controller;
