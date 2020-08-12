@@ -16,10 +16,31 @@ public class App extends Application {
         Controller _controller = new Controller();
         Scene scene;
         String title;
+        Parent root;
+        boolean isDatabaseValid = _controller.ValidateDatabase();
+        boolean isSecretKeyLoaded =  _controller.LoadSecretKey();
+        System.out.println(isDatabaseValid+"\n"+isSecretKeyLoaded);
+        // check if the database is valid
+        if(isDatabaseValid && isSecretKeyLoaded){
+            root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        }
+        else{
+            // first time setup required
+            if(!isDatabaseValid && !isSecretKeyLoaded){
+                root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
+            }
+            // Missing secret key file
+            else if(isDatabaseValid && !isDatabaseValid){
+                root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
+            }
+            // database is missing but secret key is valid.
+            else{
+                root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
+            }
+        }
 
-        Parent root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
-        //LoginController.setController(_controller);
-        //LoginController.setStage(stage);
+        LoginController.setController(_controller);
+        LoginController.setStage(stage);
         scene = new Scene(root, 800, 500);
         title="PasswordManager";
 
@@ -35,24 +56,5 @@ public class App extends Application {
         stage.setResizable(false);
         stage.show();
 
-    }
-
-    /**
-     *
-     * @return true if the program can successfully load the configuration files.
-     */
-    private boolean LoadConfig(){
-        boolean success = false;
-        return success;
-    }
-
-    /**
-     *
-     * @return true if the database is valid
-     */
-    private boolean ValidateDatabase(){
-        boolean success = false;
-
-        return success;
     }
 }

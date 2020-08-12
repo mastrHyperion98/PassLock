@@ -251,16 +251,19 @@ public class Session {
     }
 
     public boolean Validate(){
-        connect();
-        String query = "SELECT * FROM sqlite_master WHERE type='table' and name='Password'";
-        Statement statement = null;
+        boolean isValid = false;
+
         try{
-            statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(query);
+            connect();
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain=\"__master__\"");
+            isValid = results.next();
             disconnect();
-            return results.next();
         } catch (SQLException ex){
-            return false;
+            disconnect();
+            isValid = false;
         }
+
+        return isValid;
     }
 }
