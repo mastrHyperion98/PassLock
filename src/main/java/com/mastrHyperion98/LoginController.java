@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import java.io.*;
 
 public class LoginController {
-    private static Controller myController;
-    private static Stage main_stage;
+    private Controller myController;
+    private Stage main_stage;
     @FXML
     private Text actiontarget;
     @FXML private TextField encryptionField;
@@ -90,11 +90,11 @@ public class LoginController {
             e.printStackTrace();
         }
     }
-    public static void setController(Controller _controller){
+    public void setController(Controller _controller){
         myController = _controller;
     }
 
-    public static void setStage(Stage stage){
+    public void setStage(Stage stage){
         main_stage = stage;
     }
 }

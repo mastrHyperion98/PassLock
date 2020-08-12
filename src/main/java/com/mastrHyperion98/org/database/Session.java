@@ -54,7 +54,7 @@ public class Session {
         try {
             connect();
             Statement statement = connection.createStatement();
-            String query = "CREATE TABLE IF NOT EXISTS\"Password\" (\n" +
+            String query = "CREATE TABLE \"Password\" (\n" +
                     "\t\"id\"\tINTEGER,\n" +
                     "\t\"Email\"\tTEXT NOT NULL,\n" +
                     "\t\"Username\"\tTEXT NOT NULL,\n" +
@@ -247,7 +247,7 @@ public class Session {
     }
 
     public void SetPassword(String _password){
-        password = _password;
+        password = AES.encrypt(_password);
     }
 
     public boolean Validate(){
