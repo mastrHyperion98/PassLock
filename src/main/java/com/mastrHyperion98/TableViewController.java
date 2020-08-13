@@ -5,14 +5,16 @@ import com.mastrHyperion98.struct.Password;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -92,6 +94,36 @@ public class TableViewController implements Initializable {
         colUsername.setCellValueFactory(new PropertyValueFactory<>("Username"));
         colPassword.setCellValueFactory(new PropertyValueFactory<>("Password"));
         data.setItems(entryObservableList);
+        data.getSelectionModel().setCellSelectionEnabled(true);
+
+        MenuItem item = new MenuItem("Copy");
+        item.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ObservableList<TablePosition> posList = data.getSelectionModel().getSelectedCells();
+                int old_r = -1;
+                StringBuilder clipboardString = new StringBuilder();
+                for (TablePosition p : posList) {
+                    int r = p.getRow();
+                    int c = p.getColumn();
+                    Object cell = data.getColumns().get(c).getCellData(r);
+                    if (cell == null)
+                        cell = "";
+                    if (old_r == r)
+                        clipboardString.append('\t');
+                    else if (old_r != -1)
+                        clipboardString.append('\n');
+                    clipboardString.append(cell);
+                    old_r = r;
+                }
+                final ClipboardContent content = new ClipboardContent();
+                content.putString(clipboardString.toString());
+                Clipboard.getSystemClipboard().setContent(content);
+            }
+        });
+        ContextMenu menu = new ContextMenu();
+        menu.getItems().add(item);
+        data.setContextMenu(menu);
     }
 
     public void setController(Controller _controller){
