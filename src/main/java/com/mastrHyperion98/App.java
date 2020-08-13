@@ -16,13 +16,42 @@ public class App extends Application {
         Controller _controller = new Controller();
         Scene scene;
         String title;
+        Parent root;
+        boolean isDatabaseValid = _controller.ValidateDatabase();
+        boolean isSecretKeyLoaded =  _controller.LoadSecretKey();
+        // check if the database is valid
+        if(isDatabaseValid && isSecretKeyLoaded){
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+            root = fxmlLoader.load();
+            LoginController scene_controller = fxmlLoader.<LoginController >getController();
+            scene_controller.setStage(stage);
+            scene_controller.setController(_controller);
+            scene = new Scene(root, 500, 300);
+        }
+        else{
+            // first time setup required
+            if(!isDatabaseValid && !isSecretKeyLoaded){
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstTimeSetup.fxml"));
+                root = fxmlLoader.load();
+                FirstTimeController scene_controller = fxmlLoader.<FirstTimeController>getController();
+                scene_controller.setStage(stage);
+                scene_controller.setController(_controller);
+                scene = new Scene(root, 800, 500);
+            }
+            // Missing secret key file
+            else if(isDatabaseValid && !isDatabaseValid){
+                root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
+                scene = new Scene(root, 800, 500);
+            }
+            // database is missing but secret key is valid.
+            else{
+                root = FXMLLoader.load(getClass().getResource("FirstTimeSetup.fxml"));
+                scene = new Scene(root, 800, 500);
+            }
+        }
 
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-        LoginController.setController(_controller);
-        LoginController.setStage(stage);
-        scene = new Scene(root, 600, 500);
-        title="Signum";
 
+        title="PasswordManager";
         Launch(stage, scene, title);
     }
     public static void main(String[] args) {

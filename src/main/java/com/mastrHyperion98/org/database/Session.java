@@ -8,8 +8,17 @@ import java.util.List;
 public class Session {
     private String database;
     private Connection  connection = null;
+    private String password;
+    private boolean isAuthenticated;
     public Session(String _database){
         database = _database;
+        password = "";
+        isAuthenticated = Authenticate();
+    }
+    public Session(String _database, String _password){
+        database = _database;
+        password = _password;
+        isAuthenticated = Authenticate();
     }
     private void connect(){
         try {
@@ -21,10 +30,17 @@ public class Session {
         }
     }
 
+    private void Access() throws IllegalAccessException {
+        if(!Authenticate())
+            throw new IllegalAccessException("Database validation not cleared. Incorrect or empty password");
+        connect();
+    }
+
     private void disconnect(){
         try {
             if(connection != null && !connection.isClosed()){
                 connection.close();
+                connection = null;
                 System.out.println("Connection Closed");
             }
         } catch (SQLException throwables) {
@@ -33,24 +49,8 @@ public class Session {
         }
     }
 
-    public boolean exist() {
-        connect();
-        String query = "SELECT * FROM sqlite_master WHERE type='table' and name='Password'";
-        Statement statement = null;
-        try {
-            statement = connection.createStatement();
-            ResultSet results = statement.executeQuery(query);
-            disconnect();
-            return results.next();
-        } catch (SQLException throwables) {
-            return false;
-        }
-    }
-
     public boolean createTable(){
-
         boolean isCreated;
-
         try {
             connect();
             Statement statement = connection.createStatement();
@@ -64,7 +64,7 @@ public class Session {
                     ")";
             statement.execute(query);
             disconnect();
-            isCreated = true;
+            isCreated = writeMasterEntry();
         } catch (SQLException throwables) {
            disconnect();
            isCreated = false;
@@ -79,7 +79,11 @@ public class Session {
     }
 
     public void writeEntry(String domain, String email, String username, String password) throws SQLException {
-        connect();
+        try {
+            Access();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)"+
                 " VALUES (?,?,?,?)");
         statement.setString(1, domain);
@@ -89,16 +93,33 @@ public class Session {
         statement.executeUpdate();
         disconnect();
     }
-    public void writeEntry(String domain, String email, String password) throws SQLException {
+
+    /**
+     * @return true or false if the operation worked.
+     */
+    private boolean writeMasterEntry(){
+        // make sure the master password is not empty
+        if(password.equals(""))
+            return false;
+
+        boolean isSuccessful = false;
+        String domain = "__master__";
         connect();
-        PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, password)"+
-                " VALUES (?,?,?,?)");
-        statement.setString(1, domain);
-        statement.setString(2, email);
-        statement.setString(3, "NA");
-        statement.setString(4, password);
-        statement.executeUpdate();
-        disconnect();
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO Password (domain, email, username, password)" +
+                    " VALUES (?,?,?,?)");
+            statement.setString(1, domain);
+            statement.setString(2, "NA");
+            statement.setString(3, "NA");
+            statement.setString(4, password);
+            statement.executeUpdate();
+            disconnect();
+            isSuccessful = true;
+        }catch (SQLException exception){
+            disconnect();
+        }
+
+        return isSuccessful;
     }
     /**deleteEntry deletes a database entry with the given integer id.
      *
@@ -111,7 +132,7 @@ public class Session {
         if(id==1)
             return false;
         try {
-            connect();
+            Access();
             Statement statement = connection.createStatement();
             String query = "DELETE from PASSWORD where id="+id;
             statement.executeUpdate(query);
@@ -119,8 +140,12 @@ public class Session {
             return true;
         } catch (SQLException throwables) {
             disconnect();
-            return false;
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
+
+        return false;
     }
 
     /** editEntry takes a id, domain, email, username and password as inputs and updates the database field accordingly
@@ -138,7 +163,7 @@ public class Session {
             return false;
         password=AES.encrypt(password);
         try {
-            connect();
+            Access();
             PreparedStatement statement = connection.prepareStatement("UPDATE Password SET username=?, domain=?,email=?, password=? WHERE id=?");
             statement.setString(1, username);
             statement.setString(2, domain);
@@ -150,12 +175,18 @@ public class Session {
             return true;
         } catch (SQLException throwables) {
             disconnect();
-            return false;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
-    }
 
+        return false;
+    }
     public List<Password> fetchEntries() throws SQLException {
-        connect();
+        try {
+            Access();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         List<Password> list = new LinkedList<>();
 
         Statement statement = connection.createStatement();
@@ -176,7 +207,14 @@ public class Session {
     }
 
     public Password fetchEntry(String domain) throws SQLException {
-        connect();
+        if(domain == "__master__")
+            return null;
+
+        try {
+            Access();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         Statement statement = connection.createStatement();
         ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain=\""+domain+"\"");
 
@@ -189,5 +227,44 @@ public class Session {
         Password entry = new Password(id,_domain,username,email,password);
         disconnect();
         return entry;
+    }
+
+    public boolean Authenticate(){
+        boolean isMatch = false;
+        try {
+            connect();
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery("SELECT domain, password FROM Password where domain=\"__master__\"");
+            // loop and add to dictionary
+            if (results.next()) {
+                isMatch = results.getString(2).equals(password);
+            }
+            disconnect();
+            return isMatch;
+        }catch(SQLException exception){
+            disconnect();
+            return  isMatch;
+        }
+    }
+
+    public void SetPassword(String _password){
+        password = AES.encrypt(_password);
+    }
+
+    public boolean Validate(){
+        boolean isValid = false;
+
+        try{
+            connect();
+            Statement statement = connection.createStatement();
+            ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain=\"__master__\"");
+            isValid = results.next();
+            disconnect();
+        } catch (SQLException ex){
+            disconnect();
+            isValid = false;
+        }
+
+        return isValid;
     }
 }
