@@ -51,7 +51,7 @@
       </Label>
       <PasswordField id="passwordField" fx:id="passwordField" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <Button fx:id="createInstanceButton" mnemonicParsing="false" onAction="#createInstance" prefHeight="33.0" prefWidth="126.0" style="-fx-background-color: #0984e3;" text="Create" textFill="white" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <Text fx:id="errorMessage" fill="#ff0606" wrappingWidth="625.15625" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <Text fx:id="errorMessage" fill="#ff0606" wrappingWidth="537.15625" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
