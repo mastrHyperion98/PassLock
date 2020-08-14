@@ -12,16 +12,21 @@ import java.util.Scanner;
 public class Controller {
     private String databse;
     private Session session;
-    private String home;
     private File data_directory;
     private File config_directory;
+    private File app_directory;
     private boolean isSecretKeyLoaded;
-    private final String KEY = "THIS_IS_A_PLACEHOLDER_KEY_NOT_USED_IN_THE_RELEASE_BUILDS";
+    private final String KEY = "PLACEHOLDER";
 
     public Controller(){
         String home = System.getProperty("user.home");
-        data_directory = new File(home + "/PasswordManager/data");
-        config_directory = new File(home + "/PasswordManager/config");
+
+        app_directory = new File(home+"/PasswordManager");
+        if(!app_directory.exists())
+            app_directory.mkdir();
+
+        data_directory = new File(app_directory.getPath() + "/data");
+        config_directory = new File(app_directory.getPath() + "/config");
         if(!data_directory.exists())
             data_directory.mkdir();
 

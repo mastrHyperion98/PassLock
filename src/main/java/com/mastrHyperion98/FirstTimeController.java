@@ -53,13 +53,11 @@ public class FirstTimeController {
 
     @FXML
     protected void createInstance(ActionEvent event){
-        System.out.println("CreateInstanceButton!!!");
         if(passwordField.getText().equals("") || encryptionField.getText().equals("")) {
             errorMessage.setText("ERROR: Fields cannot be empty");
             return;
         }
         boolean isSuccessful = myController.WriteSecretKey(encryptionField.getText()) && myController.CreateDatabase(passwordField.getText()) ;
-
         if(isSuccessful){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
             Parent root = null;
