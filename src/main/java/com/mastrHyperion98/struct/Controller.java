@@ -16,7 +16,7 @@ public class Controller {
     private File config_directory;
     private File app_directory;
     private boolean isSecretKeyLoaded;
-    private final String KEY = "5f3%7a!pAJuIT!vFRrT1lef%9#lF-k20G%cTO&De=l!OgZIGcblobP5oASLy";
+    private final String KEY = "PLACEHOLDER";
 
     public Controller(){
         String home = System.getProperty("user.home");
