@@ -1,10 +1,27 @@
 # PasswordManager
 
-PasswordManager is a project I started working on because I was tired of keeping my passwords in a notebook and I don't trust the cloud for remember my data. I wanted to focus on creating an application that I could use across my Windows and Linux environments so I decided to use JavaFX. I also wanted the data to be secure from prying eyes so all the passwords use AES256 encryption. This is mostly meant as a hobby application and the UI might be rough around the edges since I am mostly concerned with usability rather than UI appearances. This whole project is done mostly for myself, I do not really expect others to use it, but I will develop it in such a way that it can be used by anyone as easily as possible. 
+PasswordManager is a local database management tool for managing services and their associated credentials. The application is designed using jdbc, java and javafx in a Maven project. 
+
+The passwords are protected by a AES256 encryption using a user defined secret key on first startup. At the moment there is no way to change the encryption on current passwords without overwritting them. Replacing the stored encryption key (which is itself encrypted) will cause the application to display the passwords as empty strings as the values cannot be properly decrypted. Values in any cells of the table can be copied to the clipboard. 
+
+<strong>Please Note:</strong>
+It is strongly suggested to use the auto-generate button to generate your secret key. It will generate a 256 character string of mismatched characters, numbers and symbols that will offer the strongest security. However, entering a manual key would make recovering data easier in the case the secret key local file is loss or corrupted. <strong>It is strongly recommended to backup the PasswordManager folder created in your user folder</strong>.
+
+# Targeted Platforms
+* Windows and Linux (Support coming soon I just need to figure out how to package the application into an AppImage).
+
+# Future Plans
+
+I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
+* Cleaner and more complete user interface.
+* Ability to select a key with which to re-encrypt the database (would require the users master password to be entered first). 
+* Ability to change the master password. 
+* Figure out a safe way to backup the data and secret key in case of data loss. 
+
 
 # Releases
 
-You can find the latest windows installer for the software under releases. The program has not yet been validated for use on Linux or Mac Os. In theory this should not be a problem but I will need to bundle appropriate JRE instances with the software and will therefore take a look at various deployement options for Linux. The development of the software on Linux and Mac should not be a problem. 
+You can find the latest windows installer for the software under releases. Their currently is no Linux native image of the application, and since I do not own a Mac i cannot make a Mac Os version. The windows Installer should be fixed as per the latest release. 
 
 # Development
 
