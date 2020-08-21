@@ -6,6 +6,7 @@ Created on: 2020-06-23'
 Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
 Project under the GPL3 license.
+AES Encoder is a class used to encrypt and decrypt string using AES 256 encryption standards.
  */
 
 import java.security.spec.KeySpec;
@@ -22,6 +23,11 @@ public class AES {
     private static String secretKey = "placeholder";
     private static String salt = "321saltyicecreamterminator!!!";
 
+    /**
+     *
+     * @param strToEncrypt the String the user wants to encrypt.
+     * @return returns the encrypted String.
+     */
     public static String encrypt(String strToEncrypt)
     {
         try
@@ -45,6 +51,11 @@ public class AES {
         return null;
     }
 
+    /**
+     *
+     * @param strToDecrypt the string the that will be decrypted
+     * @return the decrypted String.
+     */
     public static String decrypt(String strToDecrypt) {
         try
         {
@@ -66,6 +77,10 @@ public class AES {
         return null;
     }
 
+    /** Sets a new secretKey for the AES encoder/decoder.
+     *
+     * @param _secretKey a String parameter _secretKey that is used to set a new value to the local parameter secretKey.
+     */
     public static void setSecretKey(String _secretKey){
         secretKey = _secretKey;
     }
