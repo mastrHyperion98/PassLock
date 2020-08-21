@@ -1,5 +1,13 @@
 package com.mastrHyperion98;
 
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+
+Project under the GPL3 license.
+Controller for AddEntry FXML. Controls the actions of each element of the scene.
+ */
+
 import com.mastrHyperion98.Encoder.AES;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,6 +56,11 @@ public class AddEntryDialogController   {
         tfPassword.setText(password);
     }
 
+    /** A psudo-random String generator for passwords.
+     *
+     * @param n number of characters
+     * @return the generated psudo-random String
+     */
     private String getAlphaNumericString(int n){
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
@@ -72,15 +85,28 @@ public class AddEntryDialogController   {
 
         return sb.toString();
     }
+
+    /** Setter method for appMainObservableList
+     *
+     * @param observableList list of Passwords in the database/table
+     */
     public void setAppMainObservableList(ObservableList<Password> observableList) {
-        this.appMainObservableList = observableList;
+       appMainObservableList = observableList;
     }
 
+    /** Setter method for myController.
+     *
+     * @param _controller Reference to a Controller object
+     */
     public void setController(com.mastrHyperion98.struct.Controller _controller){
 
         myController = _controller;
     }
 
+    /** A function the closes the stage.
+     *
+     * @param event An Event that triggers the stage to close.
+     */
     private void closeStage(ActionEvent event) {
         Node  source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();

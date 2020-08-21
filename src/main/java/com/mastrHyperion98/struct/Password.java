@@ -32,7 +32,7 @@ public class Password {
         _username = new SimpleStringProperty("NA");
         _password = new SimpleStringProperty(password);
     }
-    
+
     // list of setters and getters for every field
     public int getId(){
         return _id.get();

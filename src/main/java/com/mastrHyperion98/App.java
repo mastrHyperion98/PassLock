@@ -1,5 +1,11 @@
 package com.mastrHyperion98;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
+Project under the GPL3 license.
+Main application
+ */
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
