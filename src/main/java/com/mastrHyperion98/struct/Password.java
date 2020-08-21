@@ -1,16 +1,14 @@
 package com.mastrHyperion98.struct;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
+Project under the GPL3 license.
+Password is a object that holds the information necessary to display in the table view element.
+ */
 import com.mastrHyperion98.Encoder.AES;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 public class Password {
     private SimpleIntegerProperty _id;
@@ -18,6 +16,7 @@ public class Password {
     private SimpleStringProperty _username;
     private SimpleStringProperty _email;
     private SimpleStringProperty _password;
+
 
     public Password(int id, String domain, String username, String email, String password){
        _id = new SimpleIntegerProperty(id);
@@ -33,7 +32,8 @@ public class Password {
         _username = new SimpleStringProperty("NA");
         _password = new SimpleStringProperty(password);
     }
-
+    
+    // list of setters and getters for every field
     public int getId(){
         return _id.get();
     }
