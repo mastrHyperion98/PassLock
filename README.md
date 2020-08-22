@@ -13,10 +13,14 @@ It is strongly suggested to use the auto-generate button to generate your secret
 # Future Plans
 
 I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
-* Cleaner and more complete user interface.
-* Ability to select a key with which to re-encrypt the database (would require the users master password to be entered first). 
-* Ability to change the master password. 
-* Figure out a safe way to backup the data and secret key in case of data loss. 
+
+* polish the user interface
+* add some cloud backup-sync functionality (probably with Google Drive)
+* ability to change encryption key aka secret key
+* ability to change master password
+* ability to have mulitple different users
+* migrate the backend stuff to a hosted server API (either in NodeJS or Python). 
+* connect to the server API rather than local database.
 
 
 # Releases
