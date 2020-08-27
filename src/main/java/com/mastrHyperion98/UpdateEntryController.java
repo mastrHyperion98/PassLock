@@ -5,7 +5,7 @@ Created by: Steven Smith
 Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
 Project under the GPL3 license.
-Controls Update Entry view. 
+Controls Update Entry view.
  */
 
 import com.mastrHyperion98.struct.Controller;

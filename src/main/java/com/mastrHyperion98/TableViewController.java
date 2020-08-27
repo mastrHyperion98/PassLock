@@ -35,15 +35,15 @@ public class TableViewController implements Initializable {
     @FXML
     private TableView<Password> data;
     @FXML
-    private TableColumn colId;
+    private TableColumn<Object, Object> colId;
     @FXML
-    private TableColumn colDomain;
+    private TableColumn<Object, Object> colDomain;
     @FXML
-    private TableColumn colEmail;
+    private TableColumn<Object, Object> colEmail;
     @FXML
-    private TableColumn colUsername;
+    private TableColumn<Object, Object> colUsername;
     @FXML
-    private TableColumn colPassword;
+    private TableColumn<Object, Object> colPassword;
 
     private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
     private Controller myController;
