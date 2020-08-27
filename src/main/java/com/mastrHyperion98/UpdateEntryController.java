@@ -1,15 +1,20 @@
 package com.mastrHyperion98;
 
-import com.mastrHyperion98.Encoder.AES;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+
+Project under the GPL3 license.
+Controls Update Entry view. 
+ */
+
 import com.mastrHyperion98.struct.Controller;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import com.mastrHyperion98.struct.Password;
-import java.sql.SQLException;
 
 public class UpdateEntryController   {
     @FXML

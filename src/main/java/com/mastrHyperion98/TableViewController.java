@@ -1,5 +1,11 @@
 package com.mastrHyperion98;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
+Project under the GPL3 license.
+Controls the logic flow of the TableView fxml view.
+ */
 import com.mastrHyperion98.struct.Controller;
 import com.mastrHyperion98.struct.Password;
 import javafx.collections.FXCollections;
