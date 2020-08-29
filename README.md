@@ -14,12 +14,14 @@ It is strongly suggested to use the auto-generate button to generate your secret
 
 I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
 
+* enhance security more by using Java KeyStore library to save the user generated secret key.
+* enahnce security by using the java crypto SecretKey generator.
 * polish the user interface
 * add some cloud backup-sync functionality (probably with Google Drive)
 * ability to change encryption key aka secret key
 * ability to change master password
 * ability to have mulitple different users
-* migrate the backend stuff to a hosted server API (either in NodeJS or Python). 
+* migrate the backend stuff to a hosted server API (probably in NodeJS)
 * connect to the server API rather than local database.
 
 
