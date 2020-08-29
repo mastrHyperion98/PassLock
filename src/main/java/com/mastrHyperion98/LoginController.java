@@ -10,18 +10,24 @@ Controller for the Login logic of the Login FXML view.
 
 import com.mastrHyperion98.struct.Controller;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
     private Controller myController;
     private Stage main_stage;
     @FXML
@@ -57,5 +63,19 @@ public class LoginController {
 
     public void setStage(Stage stage){
         main_stage = stage;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources){
+        passwordField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
+            {
+                try {
+                    handleSubmitButtonAction(new ActionEvent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
