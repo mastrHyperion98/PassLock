@@ -10,15 +10,20 @@ import com.mastrHyperion98.struct.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class FirstTimeController {
+public class FirstTimeController implements Initializable {
     @FXML
     private TextField encryptionField;
     @FXML
@@ -84,5 +89,24 @@ public class FirstTimeController {
 
     public void setStage(Stage stage){
         main_stage=stage;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        encryptionField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
+            {
+                createInstance(new ActionEvent());
+            }
+        });
+
+        passwordField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER)
+            {
+                createInstance(new ActionEvent());
+            }
+        });
+
     }
 }
