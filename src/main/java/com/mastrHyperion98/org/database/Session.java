@@ -1,4 +1,13 @@
 package com.mastrHyperion98.org.database;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+
+Project under the GPL3 license.
+Session is a class that controls and monitors our database access. It makes the required verification to ensure that
+all connections to the database are authorized.
+ */
+
 import com.mastrHyperion98.Encoder.AES;
 import com.mastrHyperion98.struct.Password;
 import java.sql.*;
@@ -10,16 +19,20 @@ public class Session {
     private Connection  connection = null;
     private String password;
     private boolean isAuthenticated;
+
+    /** Parameterized Constructor
+     *
+     * @param _database the String URL for the database path.
+     */
     public Session(String _database){
         database = _database;
         password = "";
         isAuthenticated = Authenticate();
     }
-    public Session(String _database, String _password){
-        database = _database;
-        password = _password;
-        isAuthenticated = Authenticate();
-    }
+
+    /**
+     * Private function that creates a connection to the SQlite database.
+     */
     private void connect(){
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:"+database);
@@ -30,12 +43,19 @@ public class Session {
         }
     }
 
+    /** Access is a function that verifies authentication credentials and creates a new Connection to the Database.
+     *
+     * @throws IllegalAccessException exception is thrown if Authentication fails.
+     */
     private void Access() throws IllegalAccessException {
         if(!Authenticate())
             throw new IllegalAccessException("Database validation not cleared. Incorrect or empty password");
         connect();
     }
 
+    /**
+     * If a connection is open and not null, close the connection to the database.
+     */
     private void disconnect(){
         try {
             if(connection != null && !connection.isClosed()){
@@ -49,6 +69,10 @@ public class Session {
         }
     }
 
+    /** Function that creates the required database table with its required fields.
+     *
+     * @return true if the SQL operation was successful
+     */
     public boolean createTable(){
         boolean isCreated;
         try {
@@ -72,12 +96,15 @@ public class Session {
         }
         return isCreated;
     }
-    public boolean isOpen() throws SQLException {
-        if (connection != null)
-            return connection.isClosed();
-        return false;
-    }
 
+    /**
+     *
+     * @param domain a String denoting the domain name of the service, example Google.
+     * @param email a String denoting the email address used for registration to the service.
+     * @param username a String denoting the username used for registration to the service.
+     * @param password a String denoting the password used for registration to the service.
+     * @throws SQLException
+     */
     public void writeEntry(String domain, String email, String username, String password) throws SQLException {
         try {
             Access();
@@ -95,6 +122,7 @@ public class Session {
     }
 
     /**
+     *  A function that writes a master password entry into the database.
      * @return true or false if the operation worked.
      */
     private boolean writeMasterEntry(){
@@ -181,6 +209,12 @@ public class Session {
 
         return false;
     }
+
+    /**
+     *
+     * @return a List of all Password object stored in the database.
+     * @throws SQLException throws an exception if the a SQL operation fails.
+     */
     public List<Password> fetchEntries() throws SQLException {
         try {
             Access();
@@ -206,6 +240,13 @@ public class Session {
         return list;
     }
 
+    /** A function that accepts a domain name as its parameter and returns a Password object if a matched is found.
+     * Otherwise returns null or throws an exception.
+     *
+     * @param domain a String denoting the name of the service to be fetched.
+     * @return the Password Object found with the given domain name.
+     * @throws SQLException throws an SQLException if an invalid query is made (domain not in database).
+     */
     public Password fetchEntry(String domain) throws SQLException {
         if(domain == "__master__")
             return null;
@@ -229,6 +270,10 @@ public class Session {
         return entry;
     }
 
+    /** Authenticate compares the AES encryption value of the user entered password to the password held in the database.
+     *
+     * @return true if the credentials are valid.
+     */
     public boolean Authenticate(){
         boolean isMatch = false;
         try {
@@ -247,10 +292,18 @@ public class Session {
         }
     }
 
+    /** A setter function to set the password field.
+     *
+     * @param _password a String denoting the master password to be used for authentication.
+     */
     public void SetPassword(String _password){
         password = AES.encrypt(_password);
     }
 
+    /** A function that validates the integrity of the database and if the required table exist.
+     *
+     * @return true if the database is valid
+     */
     public boolean Validate(){
         boolean isValid = false;
 

@@ -1,16 +1,20 @@
 package com.mastrHyperion98;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
-import com.mastrHyperion98.Encoder.AES;
+Project under the GPL3 license.
+Controller for the Login logic of the Login FXML view.
+ */
+
+
 import com.mastrHyperion98.struct.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;

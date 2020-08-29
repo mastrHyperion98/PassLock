@@ -1,5 +1,11 @@
 package com.mastrHyperion98;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
+Project under the GPL3 license.
+Controls the logic flow of the TableView fxml view.
+ */
 import com.mastrHyperion98.struct.Controller;
 import com.mastrHyperion98.struct.Password;
 import javafx.collections.FXCollections;
@@ -29,15 +35,15 @@ public class TableViewController implements Initializable {
     @FXML
     private TableView<Password> data;
     @FXML
-    private TableColumn colId;
+    private TableColumn<Object, Object> colId;
     @FXML
-    private TableColumn colDomain;
+    private TableColumn<Object, Object> colDomain;
     @FXML
-    private TableColumn colEmail;
+    private TableColumn<Object, Object> colEmail;
     @FXML
-    private TableColumn colUsername;
+    private TableColumn<Object, Object> colUsername;
     @FXML
-    private TableColumn colPassword;
+    private TableColumn<Object, Object> colPassword;
 
     private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
     private Controller myController;
@@ -97,29 +103,26 @@ public class TableViewController implements Initializable {
         data.getSelectionModel().setCellSelectionEnabled(true);
 
         MenuItem item = new MenuItem("Copy");
-        item.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ObservableList<TablePosition> posList = data.getSelectionModel().getSelectedCells();
-                int old_r = -1;
-                StringBuilder clipboardString = new StringBuilder();
-                for (TablePosition p : posList) {
-                    int r = p.getRow();
-                    int c = p.getColumn();
-                    Object cell = data.getColumns().get(c).getCellData(r);
-                    if (cell == null)
-                        cell = "";
-                    if (old_r == r)
-                        clipboardString.append('\t');
-                    else if (old_r != -1)
-                        clipboardString.append('\n');
-                    clipboardString.append(cell);
-                    old_r = r;
-                }
-                final ClipboardContent content = new ClipboardContent();
-                content.putString(clipboardString.toString());
-                Clipboard.getSystemClipboard().setContent(content);
+        item.setOnAction(event -> {
+            ObservableList<TablePosition> posList = data.getSelectionModel().getSelectedCells();
+            int old_r = -1;
+            StringBuilder clipboardString = new StringBuilder();
+            for (TablePosition p : posList) {
+                int r = p.getRow();
+                int c = p.getColumn();
+                Object cell = data.getColumns().get(c).getCellData(r);
+                if (cell == null)
+                    cell = "";
+                if (old_r == r)
+                    clipboardString.append('\t');
+                else if (old_r != -1)
+                    clipboardString.append('\n');
+                clipboardString.append(cell);
+                old_r = r;
             }
+            final ClipboardContent content = new ClipboardContent();
+            content.putString(clipboardString.toString());
+            Clipboard.getSystemClipboard().setContent(content);
         });
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(item);

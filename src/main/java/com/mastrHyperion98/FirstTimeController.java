@@ -1,6 +1,11 @@
 package com.mastrHyperion98;
+/*
+Created by: Steven Smith
+Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
 
-import com.mastrHyperion98.Encoder.AES;
+Project under the GPL3 license.
+Controller for for the First Time fxml view. Logic control for the first time setup operations
+ */
 import com.mastrHyperion98.struct.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,9 +16,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class FirstTimeController {
     @FXML
