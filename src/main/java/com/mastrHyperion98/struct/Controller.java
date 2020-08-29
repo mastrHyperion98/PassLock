@@ -40,7 +40,7 @@ public class Controller {
         if(!config_directory.exists())
             config_directory.mkdir();
 
-        databse = data_directory.getPath()+"\\db.db";
+        databse = data_directory.getPath()+"/db.db";
         session = new Session(databse);
         isSecretKeyLoaded = false;
     }
