@@ -28,15 +28,15 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     private Controller myController;
     private Stage main_stage;
-    @FXML
-    private Text actiontarget;
+   // @FXML
+    //private Text actiontarget;
     @FXML private PasswordField passwordField;
 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
 
         if(passwordField.getText().equals("")) {
-            actiontarget.setFill(Color.RED);
-            actiontarget.setText("ERROR: Invalid Input. Password cannot be empty.");
+           // actiontarget.setFill(Color.RED);
+           // actiontarget.setText("ERROR: Invalid Input. Password cannot be empty.");
             return;
         }
         // validate if password is valid.
@@ -51,8 +51,8 @@ public class LoginController implements Initializable {
             main_stage.setMinHeight(400);
             main_stage.setResizable(true);
         }else{
-            actiontarget.setFill(Color.RED);
-            actiontarget.setText("ERROR: Invalid Input. Password is incorrect.");
+            //actiontarget.setFill(Color.RED);
+            //actiontarget.setText("ERROR: Invalid Input. Password is incorrect.");
         }
     }
     public void setController(Controller _controller){
