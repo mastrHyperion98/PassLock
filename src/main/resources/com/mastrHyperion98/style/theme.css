@@ -1,0 +1,13 @@
+.button{
+    -fx-text-fill:#263238;
+    -fx-background-color:#f9a825;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
+}
+
+.password-field{
+    -fx-background-color:transparent;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: white;
+}
