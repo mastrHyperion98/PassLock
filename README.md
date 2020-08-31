@@ -14,9 +14,9 @@ It is strongly suggested to use the auto-generate button to generate your secret
 
 I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
 
+* Use Material Design with JFeonix to improve the UI and Presentation of the application.
 * enhance security more by using Java KeyStore library to save the user generated secret key.
 * enahnce security by using the java crypto SecretKey generator.
-* polish the user interface
 * add some cloud backup-sync functionality (probably with Google Drive)
 * ability to change encryption key aka secret key
 * ability to change master password
