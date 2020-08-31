@@ -11,3 +11,13 @@
     -fx-text-fill: white;
     -fx-prompt-text-fill: white;
 }
+
+#controlPanel{
+    -fx-background-color: #283593;
+    -fx-spacing:10px;
+    -fx-padding: 10px;
+}
+
+.table-view{
+    -fx-background-color: #263238;
+}

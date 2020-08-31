@@ -8,6 +8,7 @@ Controls the logic flow of the TableView fxml view.
  */
 import com.mastrHyperion98.struct.Controller;
 import com.mastrHyperion98.struct.Password;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -61,6 +62,12 @@ public class TableViewController implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.showAndWait();
+    }
+
+    // closes the application
+    @FXML
+    void onExit(ActionEvent event) throws IOException {
+        System.exit(0);
     }
 
     @FXML
@@ -128,7 +135,6 @@ public class TableViewController implements Initializable {
         menu.getItems().add(item);
         data.setContextMenu(menu);
     }
-
     public void setController(Controller _controller){
         myController = _controller;
         try {
