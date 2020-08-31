@@ -1,6 +1,6 @@
-# PasswordManager
+# Description
 
-PasswordManager is a local database management tool for managing services and their associated credentials. The application is designed using jdbc, java and javafx in a Maven project. 
+PassLock is a local database management tool for managing services and their associated credentials. The application is designed using jdbc, java and javafx in a Maven project. 
 
 The passwords are protected by a AES256 encryption using a user defined secret key on first startup. At the moment there is no way to change the encryption on current passwords without overwritting them. Replacing the stored encryption key (which is itself encrypted) will cause the application to display the passwords as empty strings as the values cannot be properly decrypted. Values in any cells of the table can be copied to the clipboard. 
 
