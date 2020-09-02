@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Modality;
@@ -58,9 +59,11 @@ public class TableViewController implements Initializable {
         dialogController.setController(myController);
         Scene scene = new Scene(parent, 550, 300);
         Stage stage = new Stage();
+        stage.setTitle("PassLock: Add");
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
         stage.showAndWait();
     }
 
@@ -93,9 +96,12 @@ public class TableViewController implements Initializable {
         Scene scene = new Scene(parent, 550, 300);
         Stage stage = new Stage();
         stage.setResizable(false);
+        stage.setTitle("PassLock: Edit");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
         stage.showAndWait();
+
         data.refresh();
     }
 
