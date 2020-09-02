@@ -13,7 +13,7 @@
 }
 
 #controlPanel{
-    -fx-background-color: #283593;
+    -fx-background-color: #262626;
     -fx-spacing:10px;
     -fx-padding: 10px;
 }
@@ -23,7 +23,7 @@
 }
 
 .table-view .column-header-background{
-    -fx-background-color: #212121;
+    -fx-background-color: #262626;
 }
 
 .table-view .column-header-background .label{
@@ -41,7 +41,7 @@
 }
 
 .table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, #37474F;
+    -fx-background-color: -fx-table-cell-border-color, #434343;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
     -fx-text-fill: white;
@@ -52,7 +52,7 @@
 }
 
 .table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color,#263238;
+    -fx-background-color: -fx-table-cell-border-color,#262626;
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em; /* 0 */
 }
