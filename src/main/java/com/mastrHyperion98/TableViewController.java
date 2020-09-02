@@ -108,7 +108,6 @@ public class TableViewController implements Initializable {
         colPassword.setCellValueFactory(new PropertyValueFactory<>("Password"));
         data.setItems(entryObservableList);
         data.getSelectionModel().setCellSelectionEnabled(true);
-
         MenuItem item = new MenuItem("Copy");
         item.setOnAction(event -> {
             ObservableList<TablePosition> posList = data.getSelectionModel().getSelectedCells();

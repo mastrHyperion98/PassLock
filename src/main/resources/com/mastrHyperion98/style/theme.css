@@ -1,5 +1,5 @@
 .button{
-    -fx-text-fill:#263238;
+    -fx-text-fill: black;
     -fx-background-color:#f9a825;
     -fx-border-radius: 20;
     -fx-background-radius: 20;
@@ -18,6 +18,41 @@
     -fx-padding: 10px;
 }
 
-.table-view{
-    -fx-background-color: #263238;
+.table-view:focused{
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header-background{
+    -fx-background-color: #212121;
+}
+
+.table-view .column-header-background .label{
+    -fx-text-fill:white;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+}
+
+.table-view:focused .table-cell:focused{
+    -fx-background-color:white;
+    -fx-text-fill: black;
+    -fx-background-insets: 0, 0 0 1 0;
+}
+
+.table-row-cell{
+    -fx-background-color: -fx-table-cell-border-color, #37474F;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
+    -fx-text-fill: white;
+}
+
+.table-view .table-cell{
+    -fx-text-fill: white;
+}
+
+.table-row-cell:odd{
+    -fx-background-color: -fx-table-cell-border-color,#263238;
+    -fx-background-insets: 0, 0 0 1 0;
+    -fx-padding: 0.0em; /* 0 */
 }
