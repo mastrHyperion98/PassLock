@@ -20,7 +20,7 @@ public class Controller {
     private final File config_directory;
     private final File app_directory;
     private boolean isSecretKeyLoaded;
-    private final String KEY = "PLACEHOLDER";
+    private final String KEY = "5f3%7a!pAJuIT!vFRrT1lef%9#lF-k20G%cTO&De=l!OgZIGcblobP5oASLy";
 
     /** Default Constructor
      *

@@ -67,7 +67,7 @@ public class FirstTimeController implements Initializable {
         }
         boolean isSuccessful = myController.WriteSecretKey(encryptionField.getText()) && myController.CreateDatabase(passwordField.getText()) ;
         if(isSuccessful){
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dataview.fxml"));
             Parent root = null;
             try {
                 root = fxmlLoader.load();

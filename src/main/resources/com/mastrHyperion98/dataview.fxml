@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="552.0" prefWidth="889.0" stylesheets="@style/theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="550.0" prefWidth="900.0" stylesheets="@style/theme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mastrHyperion98.TableViewController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -35,8 +35,11 @@
                <children>
                   <TableView fx:id="data" prefHeight="527.0" prefWidth="704.0" stylesheets="@style/theme.css">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn fx:id="colId" prefWidth="38.0" text="ID" />
+                      <TableColumn fx:id="colDomain" prefWidth="112.0" text="Domain" />
+                        <TableColumn fx:id="colEmail" prefWidth="129.0" text="Email" />
+                        <TableColumn fx:id="colUsername" prefWidth="140.0" text="Username" />
+                        <TableColumn fx:id="colPassword" prefWidth="284.0" text="Password" />
                     </columns>
                   </TableView>
                </children>
@@ -45,9 +48,9 @@
                <children>
                   <VBox id="controlPanel" alignment="CENTER" prefHeight="527.0" prefWidth="183.0" stylesheets="@style/theme.css">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="143.0" text="Add" />
-                        <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="143.0" text="Edit" />
-                        <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="143.0" text="Delete" />
+                        <Button mnemonicParsing="false" onAction="#onOpenDialog" prefHeight="47.0" prefWidth="143.0" text="Add" />
+                        <Button mnemonicParsing="false" onAction="#onUpdateDialog" prefHeight="47.0" prefWidth="143.0" text="Edit" />
+                        <Button mnemonicParsing="false" onAction="#onDeleteEntry" prefHeight="47.0" prefWidth="143.0" text="Delete" />
                      </children>
                   </VBox>
                </children>

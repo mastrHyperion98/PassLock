@@ -41,15 +41,14 @@ public class LoginController implements Initializable {
         }
         // validate if password is valid.
         if(myController.ValidateLogin(passwordField.getText())){
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dataview.fxml"));
             Parent root = fxmlLoader.load();
             TableViewController tableViewController = fxmlLoader.<TableViewController>getController();
             tableViewController.setController(myController);
-            Scene scene = new Scene(root, 400, 300);
+            Scene scene = new Scene(root, 900, 550);
             main_stage.setScene(scene);
-            main_stage.setMinWidth(1000);
-            main_stage.setMinHeight(400);
-            main_stage.setResizable(true);
+            main_stage.setMinWidth(900);
+            main_stage.setMinHeight(550);
         }else{
             //actiontarget.setFill(Color.RED);
             //actiontarget.setText("ERROR: Invalid Input. Password is incorrect.");
