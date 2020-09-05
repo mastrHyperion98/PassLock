@@ -8,6 +8,7 @@ Controls the logic flow of the TableView fxml view.
  */
 import com.mastrHyperion98.struct.Controller;
 import com.mastrHyperion98.struct.Password;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.Modality;
@@ -57,10 +59,18 @@ public class TableViewController implements Initializable {
         dialogController.setController(myController);
         Scene scene = new Scene(parent, 550, 300);
         Stage stage = new Stage();
+        stage.setTitle("PassLock: Add");
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
         stage.showAndWait();
+    }
+
+    // closes the application
+    @FXML
+    void onExit(ActionEvent event) throws IOException {
+        System.exit(0);
     }
 
     @FXML
@@ -86,9 +96,12 @@ public class TableViewController implements Initializable {
         Scene scene = new Scene(parent, 550, 300);
         Stage stage = new Stage();
         stage.setResizable(false);
+        stage.setTitle("PassLock: Edit");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
         stage.showAndWait();
+
         data.refresh();
     }
 
@@ -101,7 +114,6 @@ public class TableViewController implements Initializable {
         colPassword.setCellValueFactory(new PropertyValueFactory<>("Password"));
         data.setItems(entryObservableList);
         data.getSelectionModel().setCellSelectionEnabled(true);
-
         MenuItem item = new MenuItem("Copy");
         item.setOnAction(event -> {
             ObservableList<TablePosition> posList = data.getSelectionModel().getSelectedCells();
@@ -128,7 +140,6 @@ public class TableViewController implements Initializable {
         menu.getItems().add(item);
         data.setContextMenu(menu);
     }
-
     public void setController(Controller _controller){
         myController = _controller;
         try {

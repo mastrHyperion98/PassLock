@@ -8,12 +8,12 @@ Main application
  */
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import com.mastrHyperion98.struct.Controller;
+import javafx.stage.StageStyle;
 
 public class App extends Application {
 
@@ -28,13 +28,12 @@ public class App extends Application {
             boolean isSecretKeyLoaded = _controller.LoadSecretKey();
             // check if the database is valid
             if (isDatabaseValid && isSecretKeyLoaded) {
-
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("_login.fxml"));
                 root = fxmlLoader.load();
                 LoginController scene_controller = fxmlLoader.<LoginController>getController();
                 scene_controller.setStage(stage);
                 scene_controller.setController(_controller);
-                scene = new Scene(root, 500, 300);
+                scene = new Scene(root, 800, 500);
             } else {
                 // first time setup required
                 if (!isDatabaseValid && !isSecretKeyLoaded) {
@@ -46,7 +45,7 @@ public class App extends Application {
                     scene = new Scene(root, 800, 500);
                 }
                 // Missing secret key file
-                else if (isDatabaseValid && !isDatabaseValid) {
+                else if (isDatabaseValid && !isSecretKeyLoaded) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstTimeSetup.fxml"));
                     root = fxmlLoader.load();
                     FirstTimeController scene_controller = fxmlLoader.<FirstTimeController>getController();
@@ -67,7 +66,7 @@ public class App extends Application {
                 }
             }
 
-            title = "PasswordManager";
+            title = "PassLock";
             Launch(stage, scene, title);
 
     }

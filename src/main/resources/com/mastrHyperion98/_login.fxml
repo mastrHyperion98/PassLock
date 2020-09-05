@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="250.0" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #262626;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mastrHyperion98.LoginController">
+   <children>
+      <ImageView layoutX="368.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@icon/icons8-lock-64.png" />
+         </image>
+      </ImageView>
+      <Text fill="#ff6f00" layoutX="344.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pass">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <Text fill="#f9a825" layoutX="400.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Text>
+      <HBox alignment="CENTER_LEFT" layoutX="232.0" layoutY="302.0" prefHeight="39.0" prefWidth="354.0" style="-fx-border-color: white; -fx-padding: 5px;">
+         <children>
+            <ImageView fitHeight="42.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@icon/key-regular-24.png" />
+               </image>
+            </ImageView>
+            <PasswordField fx:id="passwordField" prefHeight="39.0" prefWidth="336.0" stylesheets="@style/theme.css">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </PasswordField>
+         </children>
+      </HBox>
+      <Button layoutX="586.0" layoutY="386.0" mnemonicParsing="false" onAction="#handleSubmitButtonAction" prefHeight="39.0" prefWidth="129.0" stylesheets="@style/theme.css" text="Login">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

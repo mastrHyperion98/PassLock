@@ -28,31 +28,30 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     private Controller myController;
     private Stage main_stage;
-    @FXML
-    private Text actiontarget;
+   // @FXML
+    //private Text actiontarget;
     @FXML private PasswordField passwordField;
 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) throws IOException {
 
         if(passwordField.getText().equals("")) {
-            actiontarget.setFill(Color.RED);
-            actiontarget.setText("ERROR: Invalid Input. Password cannot be empty.");
+           // actiontarget.setFill(Color.RED);
+           // actiontarget.setText("ERROR: Invalid Input. Password cannot be empty.");
             return;
         }
         // validate if password is valid.
         if(myController.ValidateLogin(passwordField.getText())){
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("TableView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dataview.fxml"));
             Parent root = fxmlLoader.load();
             TableViewController tableViewController = fxmlLoader.<TableViewController>getController();
             tableViewController.setController(myController);
-            Scene scene = new Scene(root, 400, 300);
+            Scene scene = new Scene(root, 900, 550);
             main_stage.setScene(scene);
-            main_stage.setMinWidth(1000);
-            main_stage.setMinHeight(400);
-            main_stage.setResizable(true);
+            main_stage.setMinWidth(900);
+            main_stage.setMinHeight(550);
         }else{
-            actiontarget.setFill(Color.RED);
-            actiontarget.setText("ERROR: Invalid Input. Password is incorrect.");
+            //actiontarget.setFill(Color.RED);
+            //actiontarget.setText("ERROR: Invalid Input. Password is incorrect.");
         }
     }
     public void setController(Controller _controller){
