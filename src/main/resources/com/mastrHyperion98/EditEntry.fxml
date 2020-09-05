@@ -51,7 +51,7 @@
                         <Insets right="30.0" />
                     </padding>
                 </HBox>
-                  <Button mnemonicParsing="false" onAction="#btnUpdateClicked" prefHeight="27.0" prefWidth="123.0" text="Update" />
+                  <Button mnemonicParsing="false" onAction="#btnUpdateClicked" prefHeight="27.0" prefWidth="155.0" text="Update" />
             </children>
         </VBox>
     </children>
