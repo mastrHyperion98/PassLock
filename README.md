@@ -1,11 +1,9 @@
 # Description
 
-PassLock is a local database management tool for managing services and their associated credentials. The application is designed using jdbc, java and javafx in a Maven project. 
-
-The passwords are protected by a AES256 encryption using a user defined secret key on first startup. At the moment there is no way to change the encryption on current passwords without overwritting them. Replacing the stored encryption key (which is itself encrypted) will cause the application to display the passwords as empty strings as the values cannot be properly decrypted. Values in any cells of the table can be copied to the clipboard. 
+PassLock is a local database management tool for managing services and their associated credentials. The application is designed using AES 256 encryption, jdbc, java and javafx in a Maven project. 
 
 <strong>Please Note:</strong>
-It is strongly suggested to use the auto-generate button to generate your secret key. It will generate a 256 character string of mismatched characters, numbers and symbols that will offer the strongest security. However, entering a manual key would make recovering data easier in the case the secret key local file is loss or corrupted. <strong>It is strongly recommended to backup the PasswordManager folder created in your user folder</strong>.
+Application settings, keys and database are stored under {User}/PassLock directory. where {User} replaces the path to your user directory. 
 
 # Targeted Platforms
 * Windows and Linux (Support coming soon I just need to figure out how to package the application into an AppImage... I still want to release the application as a self contained AppImage, but for now i'll be bundling the custom jre and jar file in a zip archive with a bash launch script that should work across linux x86_64 environments).
@@ -14,15 +12,13 @@ It is strongly suggested to use the auto-generate button to generate your secret
 
 I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
 
-* Use Material Design with JFeonix to improve the UI and Presentation of the application.
+* Use Material Design to improve the UI of the application.
 * enhance security more by using Java KeyStore library to save the user generated secret key.
 * enahnce security by using the java crypto SecretKey generator.
 * add some cloud backup-sync functionality (probably with Google Drive)
 * ability to change encryption key aka secret key
 * ability to change master password
 * ability to have mulitple different users
-* migrate the backend stuff to a hosted server API (probably in NodeJS)
-* connect to the server API rather than local database.
 
 
 # Releases
