@@ -41,8 +41,10 @@ public class App extends Application {
             title = "PassLock";
             Launch(stage, scene, title);
 
-            InvalidDatabase(isDatabaseValid);
-            InvalidSecretKey(isSecretKeyLoaded);
+            if(!isDatabaseValid)
+                InvalidDatabase();
+            else if(!isSecretKeyLoaded)
+                InvalidSecretKey();
     }
     public static void main(String[] args) {
         launch(args);
@@ -57,8 +59,7 @@ public class App extends Application {
 
     }
 
-    private static void InvalidDatabase(boolean isDatabaseValid){
-        if(!isDatabaseValid){
+    private static void InvalidDatabase(){
             FXMLLoader _fxmlLoader = new FXMLLoader(App.class.getResource("StartupError.fxml"));
             Parent parent = null;
             Stage popup_stage = new Stage();
@@ -80,11 +81,9 @@ public class App extends Application {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
 
-    public static void InvalidSecretKey(boolean isSecretKeyLoaded){
-        if(!isSecretKeyLoaded){
+    public static void InvalidSecretKey(){
             FXMLLoader _fxmlLoader = new FXMLLoader(App.class.getResource("StartupError.fxml"));
             Parent parent = null;
             Stage popup_stage = new Stage();
@@ -106,7 +105,6 @@ public class App extends Application {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
 
 
