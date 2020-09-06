@@ -5,7 +5,7 @@ PassLock is a local database management tool for managing services and their ass
 The passwords are protected by a AES256 encryption using a user defined secret key on first startup. At the moment there is no way to change the encryption on current passwords without overwritting them. Replacing the stored encryption key (which is itself encrypted) will cause the application to display the passwords as empty strings as the values cannot be properly decrypted. Values in any cells of the table can be copied to the clipboard. 
 
 <strong>Please Note:</strong>
-It is strongly suggested to use the auto-generate button to generate your secret key. It will generate a 256 character string of mismatched characters, numbers and symbols that will offer the strongest security. However, entering a manual key would make recovering data easier in the case the secret key local file is loss or corrupted. <strong>It is strongly recommended to backup the PasswordManager folder created in your user folder</strong>.
+Application settings, keys and database are stored under {User}/PassLock directory. where {User} replaces the path to your user directory. 
 
 # Targeted Platforms
 * Windows and Linux (Support coming soon I just need to figure out how to package the application into an AppImage... I still want to release the application as a self contained AppImage, but for now i'll be bundling the custom jre and jar file in a zip archive with a bash launch script that should work across linux x86_64 environments).
