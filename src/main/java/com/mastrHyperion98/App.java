@@ -8,24 +8,27 @@ Main application
  */
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import com.mastrHyperion98.struct.Controller;
-import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class App extends Application {
-
+    private static final String DATABASE_LAUNCH_ERROR="Database Instance missing or Incorrect! This may be the first time the application is launched.";
+    private static Controller _controller;
     @Override
     public void start(Stage stage) throws Exception{
-
-            Controller _controller = new Controller();
+            _controller = new Controller();
             Scene scene;
             String title;
             Pane root;
-            // boolean isDatabaseValid = _controller.ValidateDatabase();
-            // boolean isSecretKeyLoaded = _controller.LoadSecretKey();
+            boolean isDatabaseValid = _controller.ValidateDatabase();
+            boolean isSecretKeyLoaded = _controller.LoadSecretKey();
             // check if the database is valid
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("_login.fxml"));
             root = fxmlLoader.load();
@@ -36,6 +39,8 @@ public class App extends Application {
 
             title = "PassLock";
             Launch(stage, scene, title);
+
+            InvalidDatabase(isDatabaseValid);
     }
     public static void main(String[] args) {
         launch(args);
@@ -48,5 +53,31 @@ public class App extends Application {
         stage.setResizable(false);
         stage.show();
 
+    }
+
+    private static void InvalidDatabase(boolean isDatabaseValid){
+        if(!isDatabaseValid){
+            FXMLLoader _fxmlLoader = new FXMLLoader(App.class.getResource("StartupError.fxml"));
+            Parent parent = null;
+            Stage popup_stage = new Stage();
+            Scene popup_scene;
+            try {
+
+                parent = _fxmlLoader.load();
+                StartupErrorController viewController = _fxmlLoader.<StartupErrorController>getController();
+                viewController.setDatabaseController(_controller);
+                viewController.setErrorMessage(DATABASE_LAUNCH_ERROR);
+                viewController.setCurrent_stage(popup_stage);
+                popup_scene = new Scene(parent, 350, 220);
+                popup_stage.setResizable(false);
+                popup_stage.setTitle("PassLock: Error");
+                popup_stage.initModality(Modality.APPLICATION_MODAL);
+                popup_stage.setScene(popup_scene);
+                popup_stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
+                popup_stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
