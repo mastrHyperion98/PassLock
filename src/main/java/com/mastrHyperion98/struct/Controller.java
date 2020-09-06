@@ -9,7 +9,15 @@ Controller contains all the actions that is available to the user from the user 
 
 import com.mastrHyperion98.Encoder.AES;
 import com.mastrHyperion98.org.database.Session;
+
+import javax.crypto.SecretKey;
 import java.io.*;
+import java.security.KeyStore;
+import java.security.KeyStore.SecretKeyEntry;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableEntryException;
+import java.security.cert.CertificateException;
 import java.util.Scanner;
 
 
@@ -19,8 +27,9 @@ public class Controller {
     private final File data_directory;
     private final File config_directory;
     private final File app_directory;
+    private final String FOLDER_NAME="PassLock";
     private boolean isSecretKeyLoaded;
-    private final String KEY = "PLACEHOLDER";
+    private char[] key_store_password = "PLACEHOLDER".toCharArray();
 
     /** Default Constructor
      *
@@ -28,7 +37,7 @@ public class Controller {
     public Controller(){
         // acquire files path directory
         String home = System.getProperty("user.home");
-        app_directory = new File(home+"/PasswordManager");
+        app_directory = new File(home+"/"+FOLDER_NAME);
         if(!app_directory.exists())
             app_directory.mkdir();
 
@@ -43,6 +52,10 @@ public class Controller {
         databse = data_directory.getPath()+"/db.db";
         session = new Session(databse);
         isSecretKeyLoaded = false;
+    }
+
+    public char[] getKeyStorePassword(){
+        return key_store_password;
     }
 
     /** A function that creates and setups the database to fit the requirements of the application.
@@ -76,48 +89,31 @@ public class Controller {
      * @return true if the secret key is successfully read
      */
     public boolean LoadSecretKey(){
-        File file = new File(config_directory.getPath()+"/secret_key.key");
-        if(!file.exists())
-            return false;
-        if(isSecretKeyLoaded)
-            return isSecretKeyLoaded;
+        String path = (config_directory.getPath()+"/keys.p12");
+        boolean success = false;
         try {
-            Scanner file_reader = new Scanner(new FileInputStream(file));
-            if(!file_reader.hasNextLine())
-                return false;
-            AES.setSecretKey(KEY);
-            String secretKey = AES.decrypt(file_reader.nextLine());
-            AES.setSecretKey(secretKey);
-            isSecretKeyLoaded = true;
-            return true;
-        } catch (FileNotFoundException e) {
-            return false;
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            try(InputStream keyStoreData = new FileInputStream(path)){
+                keyStore.load(keyStoreData, key_store_password);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            KeyStore.PasswordProtection entryProtection = new KeyStore.PasswordProtection(key_store_password);
+            SecretKeyEntry secret_key_entry = (SecretKeyEntry) keyStore.getEntry("secretKey",entryProtection);
+            SecretKey secret_key = secret_key_entry.getSecretKey();
+            AES.setSecretKey(secret_key);
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | UnrecoverableEntryException e) {
+            e.printStackTrace();
         }
+        return success;
     }
 
-    /** A function that encrypts and writes the secretKey to its appropriate location.
+    /**
      *
-     * @param secretKey a String denoting the secretKey to be stored.
-     * @return true if the operation is successful, false otherwise.
+     * @return a String of the path to the config directory
      */
-    public boolean WriteSecretKey(String secretKey){
-        if(isSecretKeyLoaded)
-            return !isSecretKeyLoaded;
-
-        File file = new File(config_directory.getPath()+"/secret_key.key");
-        try {
-            FileWriter writer = new FileWriter(file);
-            AES.setSecretKey(KEY);
-            writer.write(AES.encrypt(secretKey));
-            AES.setSecretKey(secretKey);
-            writer.flush();
-            writer.close();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            file.delete();
-            return false;
-        }
+    public String getConfigPath(){
+        return config_directory.getPath();
     }
 
     /** A function that validates the users password and authenticates the login request.
