@@ -1,6 +1,6 @@
 # Description
 
-PassLock is a local database management tool for managing services and their associated credentials. The application is designed using jdbc, java and javafx in a Maven project using AES 256 encryption. 
+PassLock is a local database management tool for managing services and their associated credentials. The application is designed using AES 256 encryption, jdbc, java and javafx in a Maven project. 
 
 <strong>Please Note:</strong>
 Application settings, keys and database are stored under {User}/PassLock directory. where {User} replaces the path to your user directory. 
