@@ -43,6 +43,7 @@ public class StartupErrorController implements Initializable {
         //current_stage.hide();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CreateDatabase.fxml"));
         try {
+            database_controller.DeleteFiles();
             Parent parent = fxmlLoader.load();
             CreateDabaseController viewController = fxmlLoader.<CreateDabaseController>getController();
             viewController.setDatabaseController(database_controller);

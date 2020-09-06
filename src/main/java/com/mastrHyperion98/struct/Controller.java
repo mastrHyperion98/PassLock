@@ -126,4 +126,13 @@ public class Controller {
         return session.Authenticate();
     }
 
+    public void DeleteFiles(){
+        File config = new File(config_directory.getPath()+"keys.p12");
+        File database = new File(data_directory+"/db.db");
+
+        if(config.exists())
+            config.delete();
+        if(database.exists())
+            database.delete();
+    }
 }

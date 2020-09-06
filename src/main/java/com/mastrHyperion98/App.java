@@ -19,7 +19,8 @@ import com.mastrHyperion98.struct.Controller;
 import java.io.IOException;
 
 public class App extends Application {
-    private static final String DATABASE_LAUNCH_ERROR="Database Instance missing or Incorrect! This may be the first time the application is launched.";
+    private static final String DATABASE_LAUNCH_ERROR="Database Instance is missing or incorrect! This may be the first time the application is launched.";
+    private static final String SK_LAUNCH_ERROR="keys.p12 is either corrupted or missing! Security information cannot be validated.\n\nPlease replace keys.p12 with a proper key or generate a new database.";
     private static Controller _controller;
     @Override
     public void start(Stage stage) throws Exception{
@@ -41,6 +42,7 @@ public class App extends Application {
             Launch(stage, scene, title);
 
             InvalidDatabase(isDatabaseValid);
+            InvalidSecretKey(isSecretKeyLoaded);
     }
     public static void main(String[] args) {
         launch(args);
@@ -80,4 +82,32 @@ public class App extends Application {
             }
         }
     }
+
+    public static void InvalidSecretKey(boolean isSecretKeyLoaded){
+        if(!isSecretKeyLoaded){
+            FXMLLoader _fxmlLoader = new FXMLLoader(App.class.getResource("StartupError.fxml"));
+            Parent parent = null;
+            Stage popup_stage = new Stage();
+            Scene popup_scene;
+            try {
+
+                parent = _fxmlLoader.load();
+                StartupErrorController viewController = _fxmlLoader.<StartupErrorController>getController();
+                viewController.setDatabaseController(_controller);
+                viewController.setErrorMessage(SK_LAUNCH_ERROR);
+                viewController.setCurrent_stage(popup_stage);
+                popup_scene = new Scene(parent, 350, 220);
+                popup_stage.setResizable(false);
+                popup_stage.setTitle("PassLock: Error");
+                popup_stage.initModality(Modality.APPLICATION_MODAL);
+                popup_stage.setScene(popup_scene);
+                popup_stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
+                popup_stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }
