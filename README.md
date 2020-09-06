@@ -21,8 +21,6 @@ I would like to do the following eventually, however, the application is current
 * ability to change encryption key aka secret key
 * ability to change master password
 * ability to have mulitple different users
-* migrate the backend stuff to a hosted server API (probably in NodeJS)
-* connect to the server API rather than local database.
 
 
 # Releases
