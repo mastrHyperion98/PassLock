@@ -102,6 +102,7 @@ public class Controller {
             SecretKeyEntry secret_key_entry = (SecretKeyEntry) keyStore.getEntry("secretKey",entryProtection);
             SecretKey secret_key = secret_key_entry.getSecretKey();
             AES.setSecretKey(secret_key);
+            success = true;
         } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | UnrecoverableEntryException e) {
             e.printStackTrace();
         }
