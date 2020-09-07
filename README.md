@@ -12,9 +12,7 @@ Application settings, keys and database are stored under {User}/PassLock directo
 
 I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
 
-* Use Material Design to improve the UI of the application.
-* enhance security more by using Java KeyStore library to save the user generated secret key.
-* enahnce security by using the java crypto SecretKey generator.
+* Input validation
 * add some cloud backup-sync functionality (probably with Google Drive)
 * ability to change encryption key aka secret key
 * ability to change master password
