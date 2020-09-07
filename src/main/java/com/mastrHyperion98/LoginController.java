@@ -16,9 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -51,7 +51,7 @@ public class LoginController implements Initializable {
             main_stage.setMinHeight(550);
         }else{
             //actiontarget.setFill(Color.RED);
-            //actiontarget.setText("ERROR: Invalid Input. Password is incorrect.");
+            System.out.println("ERROR: Invalid Input. Password is incorrect.");
         }
     }
     public void setController(Controller _controller){

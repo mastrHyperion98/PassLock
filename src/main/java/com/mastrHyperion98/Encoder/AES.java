@@ -9,6 +9,8 @@ Project under the GPL3 license.
 AES Encoder is a class used to encrypt and decrypt string using AES 256 encryption standards.
  */
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 import javax.crypto.*;
@@ -20,8 +22,9 @@ public class AES {
 
     // Ideally this should be changed later to fetch a system environment variable
     // This ensure different result on different computers
-    private static String secretKey = "placeholder";
+    private static SecretKeySpec secretKey;
     private static String salt = "321saltyicecreamterminator!!!";
+    private static IvParameterSpec ivspec = new IvParameterSpec(new byte[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 });
 
     /**
      *
@@ -32,14 +35,6 @@ public class AES {
     {
         try
         {
-            byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
-
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
-            SecretKey tmp = factory.generateSecret(spec);
-            SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey, ivspec);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
@@ -59,13 +54,6 @@ public class AES {
     public static String decrypt(String strToDecrypt) {
         try
         {
-            byte[] iv = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-            IvParameterSpec ivspec = new IvParameterSpec(iv);
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-            KeySpec spec = new PBEKeySpec(secretKey.toCharArray(), salt.getBytes(), 65536, 256);
-            SecretKey tmp = factory.generateSecret(spec);
-            SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, secretKey, ivspec);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
@@ -81,8 +69,17 @@ public class AES {
      *
      * @param _secretKey a String parameter _secretKey that is used to set a new value to the local parameter secretKey.
      */
-    public static void setSecretKey(String _secretKey){
-        secretKey = _secretKey;
+    public static void setSecretKey(SecretKey _secretKey){
+        SecretKeyFactory factory = null;
+        try {
+            factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            KeySpec spec = new PBEKeySpec(Base64.getEncoder().encodeToString(_secretKey.getEncoded()).toCharArray(), salt.getBytes(), 65536, 256);
+            SecretKey tmp = factory.generateSecret(spec);
+            secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

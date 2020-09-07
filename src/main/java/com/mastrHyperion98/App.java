@@ -8,67 +8,43 @@ Main application
  */
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import com.mastrHyperion98.struct.Controller;
-import javafx.stage.StageStyle;
+
+import java.io.IOException;
 
 public class App extends Application {
-
+    private static final String DATABASE_LAUNCH_ERROR="Database Instance is missing or incorrect! This may be the first time the application is launched.";
+    private static final String SK_LAUNCH_ERROR="keys.p12 is either corrupted or missing! Security information cannot be validated.\n\nPlease replace keys.p12 with a proper key or generate a new database.";
+    private static Controller _controller;
     @Override
     public void start(Stage stage) throws Exception{
-
-            Controller _controller = new Controller();
+            _controller = new Controller();
             Scene scene;
             String title;
             Pane root;
             boolean isDatabaseValid = _controller.ValidateDatabase();
             boolean isSecretKeyLoaded = _controller.LoadSecretKey();
             // check if the database is valid
-            if (isDatabaseValid && isSecretKeyLoaded) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("_login.fxml"));
-                root = fxmlLoader.load();
-                LoginController scene_controller = fxmlLoader.<LoginController>getController();
-                scene_controller.setStage(stage);
-                scene_controller.setController(_controller);
-                scene = new Scene(root, 800, 500);
-            } else {
-                // first time setup required
-                if (!isDatabaseValid && !isSecretKeyLoaded) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstTimeSetup.fxml"));
-                    root = fxmlLoader.load();
-                    FirstTimeController scene_controller = fxmlLoader.<FirstTimeController>getController();
-                    scene_controller.setStage(stage);
-                    scene_controller.setController(_controller);
-                    scene = new Scene(root, 800, 500);
-                }
-                // Missing secret key file
-                else if (isDatabaseValid && !isSecretKeyLoaded) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstTimeSetup.fxml"));
-                    root = fxmlLoader.load();
-                    FirstTimeController scene_controller = fxmlLoader.<FirstTimeController>getController();
-                    scene_controller.setStage(stage);
-                    scene_controller.setController(_controller);
-                    scene = new Scene(root, 800, 500);
-                    System.exit(1);
-                }
-                // database is missing but secret key is valid.
-                else {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstTimeSetup.fxml"));
-                    root = fxmlLoader.load();
-                    FirstTimeController scene_controller = fxmlLoader.<FirstTimeController>getController();
-                    scene_controller.setStage(stage);
-                    scene_controller.setController(_controller);
-                    scene = new Scene(root, 800, 500);
-                    System.exit(1);
-                }
-            }
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("_login.fxml"));
+            root = fxmlLoader.load();
+            LoginController scene_controller = fxmlLoader.<LoginController>getController();
+            scene_controller.setStage(stage);
+            scene_controller.setController(_controller);
+            scene = new Scene(root, 800, 500);
 
             title = "PassLock";
             Launch(stage, scene, title);
 
+            if(!isDatabaseValid)
+                InvalidDatabase();
+            else if(!isSecretKeyLoaded)
+                InvalidSecretKey();
     }
     public static void main(String[] args) {
         launch(args);
@@ -82,4 +58,54 @@ public class App extends Application {
         stage.show();
 
     }
+
+    private static void InvalidDatabase(){
+            FXMLLoader _fxmlLoader = new FXMLLoader(App.class.getResource("StartupError.fxml"));
+            Parent parent = null;
+            Stage popup_stage = new Stage();
+            Scene popup_scene;
+            try {
+
+                parent = _fxmlLoader.load();
+                StartupErrorController viewController = _fxmlLoader.<StartupErrorController>getController();
+                viewController.setDatabaseController(_controller);
+                viewController.setErrorMessage(DATABASE_LAUNCH_ERROR);
+                viewController.setCurrent_stage(popup_stage);
+                popup_scene = new Scene(parent, 350, 220);
+                popup_stage.setResizable(false);
+                popup_stage.setTitle("PassLock: Error");
+                popup_stage.initModality(Modality.APPLICATION_MODAL);
+                popup_stage.setScene(popup_scene);
+                popup_stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
+                popup_stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    public static void InvalidSecretKey(){
+            FXMLLoader _fxmlLoader = new FXMLLoader(App.class.getResource("StartupError.fxml"));
+            Parent parent = null;
+            Stage popup_stage = new Stage();
+            Scene popup_scene;
+            try {
+
+                parent = _fxmlLoader.load();
+                StartupErrorController viewController = _fxmlLoader.<StartupErrorController>getController();
+                viewController.setDatabaseController(_controller);
+                viewController.setErrorMessage(SK_LAUNCH_ERROR);
+                viewController.setCurrent_stage(popup_stage);
+                popup_scene = new Scene(parent, 350, 220);
+                popup_stage.setResizable(false);
+                popup_stage.setTitle("PassLock: Error");
+                popup_stage.initModality(Modality.APPLICATION_MODAL);
+                popup_stage.setScene(popup_scene);
+                popup_stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
+                popup_stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+
 }
