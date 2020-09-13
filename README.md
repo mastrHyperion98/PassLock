@@ -31,3 +31,5 @@ The project uses maven and should be easy to setup in IntelliJ. The project uses
 * <a href=https://openjfx.io/openjfx-docs/>JavaFX documentation and setup</a> You can find information on how to setup a javafx maven project with the major java IDE. 
 * <a href=https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc/3.32.3.2>Maven SQLITE Xerial drivers for JDBC</a>
 
+# PKCS12 References
+* https://ftp.gnome.org/mirror/archive/ftp.sunet.se/pub/security/docs/PCA/PKCS/ftp.rsa.com/pkcs-12/pkcs-12v1.pdf
