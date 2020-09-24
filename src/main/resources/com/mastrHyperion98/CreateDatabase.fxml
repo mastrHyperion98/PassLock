@@ -21,7 +21,7 @@
             <Font size="29.0" />
          </font>
       </Text>
-      <Text fill="#f9a825" layoutX="410.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock">
+      <Text fill="#f9a825" layoutX="415.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock">
          <font>
             <Font size="29.0" />
          </font>
