@@ -45,7 +45,7 @@
             </PasswordField>
          </children>
       </HBox>
-      <Button layoutX="596.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" prefHeight="39.0" prefWidth="129.0" stylesheets="@style/theme.css" text="Create Database">
+      <Button layoutX="596.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" prefHeight="39.0" prefWidth="129.0" stylesheets="@style/theme.css" text="Create">
          <font>
             <Font size="15.0" />
          </font>
