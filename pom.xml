@@ -45,8 +45,7 @@
                     <mainClass>com.mastrHyperion98.Launcher</mainClass>
                     <noManPages>true</noManPages>
                     <noHeaderFiles>true</noHeaderFiles>
-                    <jlinkImageName>PasswordManager</jlinkImageName>
-                    <jlinkZipName>PasswordManager.zip</jlinkZipName>
+                    <jlinkImageName>Passlock</jlinkImageName>
                 </configuration>
             </plugin>
         </plugins>
