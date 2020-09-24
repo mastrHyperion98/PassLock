@@ -40,9 +40,13 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.4</version>
+                <version>0.0.3</version>
                 <configuration>
                     <mainClass>com.mastrHyperion98.Launcher</mainClass>
+                    <noManPages>true</noManPages>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <jlinkImageName>PasswordManager</jlinkImageName>
+                    <jlinkZipName>PasswordManager.zip</jlinkZipName>
                 </configuration>
             </plugin>
         </plugins>
