@@ -35,6 +35,7 @@ public class Controller {
      *
      */
     public Controller(){
+
         // acquire files path directory
         String home = System.getProperty("user.home");
         app_directory = new File(home+"/"+FOLDER_NAME);
@@ -42,9 +43,11 @@ public class Controller {
             app_directory.mkdir();
 
         data_directory = new File(app_directory.getPath() + "/data");
+
         config_directory = new File(app_directory.getPath() + "/config");
         if(!data_directory.exists())
             data_directory.mkdir();
+
 
         if(!config_directory.exists())
             config_directory.mkdir();
@@ -128,7 +131,7 @@ public class Controller {
     }
 
     public void DeleteFiles(){
-        File config = new File(config_directory.getPath()+"keys.p12");
+        File config = new File(config_directory.getPath()+"/keys.p12");
         File database = new File(data_directory+"/db.db");
 
         if(config.exists())
