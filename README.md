@@ -8,17 +8,6 @@ Application settings, keys and database are stored under {User}/PassLock directo
 # Targeted Platforms
 * Windows and Linux (Support coming soon I just need to figure out how to package the application into an AppImage... I still want to release the application as a self contained AppImage, but for now i'll be bundling the custom jre and jar file in a zip archive with a bash launch script that should work across linux x86_64 environments).
 
-# Future Plans
-
-I would like to do the following eventually, however, the application is currently in a state where I would use it myself.
-
-* Input validation
-* add some cloud backup-sync functionality (probably with Google Drive)
-* ability to change encryption key aka secret key
-* ability to change master password
-* ability to have mulitple different users
-
-
 # Releases
 
 You can find the latest windows installer for the software under releases. Their currently is no Linux native image of the application, and since I do not own a Mac i cannot make a Mac Os version. The windows Installer should be fixed as per the latest release. 
