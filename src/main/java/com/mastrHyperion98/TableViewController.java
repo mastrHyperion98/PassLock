@@ -6,6 +6,8 @@ Created for: PasswordManager project @ https://github.com/mastrHyperion98/Passwo
 Project under the GPL3 license.
 Controls the logic flow of the TableView fxml view.
  */
+import com.mastrHyperion98.struct.CSV;
+import com.mastrHyperion98.struct.CSV_Writer;
 import com.mastrHyperion98.struct.Controller;
 import com.mastrHyperion98.struct.Password;
 import javafx.application.Application;
@@ -23,10 +25,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -71,6 +75,27 @@ public class TableViewController implements Initializable {
     @FXML
     void onExit(ActionEvent event) throws IOException {
         System.exit(0);
+    }
+
+    @FXML
+    void onExport(ActionEvent event){
+        String[] header = new String[]{"domain", "username", "email", "password"};
+        int numberElement = entryObservableList.size();
+        String[][] body = new String[numberElement][header.length];
+
+        for(int i = 0; i < numberElement; i++){
+            Password password = entryObservableList.get(i);
+            String[] line = new String[]{password.getDomain(), password.getUsername(), password.getEmail(), password.getPassword()};
+            body[i] = line;
+        }
+        CSV csv = new CSV(header, body);
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        try {
+            CSV_Writer.Write(selectedDirectory.getAbsolutePath()+"/export.csv", csv);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
