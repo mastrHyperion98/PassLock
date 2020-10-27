@@ -21,7 +21,7 @@
             <Font size="29.0" />
          </font>
       </Text>
-      <Text fill="#f9a825" layoutX="410.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock">
+      <Text fill="#f9a825" layoutX="415.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lock">
          <font>
             <Font size="29.0" />
          </font>
@@ -45,7 +45,7 @@
             </PasswordField>
          </children>
       </HBox>
-      <Button layoutX="596.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" prefHeight="39.0" prefWidth="129.0" stylesheets="@style/theme.css" text="Create Database">
+      <Button layoutX="596.0" layoutY="396.0" mnemonicParsing="false" onAction="#handleCreateButtonAction" prefHeight="39.0" prefWidth="129.0" stylesheets="@style/theme.css" text="Create">
          <font>
             <Font size="15.0" />
          </font>
