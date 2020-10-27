@@ -91,11 +91,14 @@ public class TableViewController implements Initializable {
         CSV csv = new CSV(header, body);
         DirectoryChooser directoryChooser = new DirectoryChooser();
         File selectedDirectory = directoryChooser.showDialog(new Stage());
-        try {
-            CSV_Writer.Write(selectedDirectory.getAbsolutePath()+"/export.csv", csv);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // use thread for IO as to not slow down or freeze application in the case of a large dataset to write
+        new Thread(() -> {
+            try {
+                CSV_Writer.Write(selectedDirectory.getAbsolutePath()+"/export.csv", csv);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @FXML
