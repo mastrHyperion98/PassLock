@@ -1,13 +1,14 @@
 package com.mastrHyperion98.struct;
 
-
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CSV_Writer {
-    public static void Write(File file, CSV document) throws IOException {
-        FileWriter fw = new FileWriter(file);
+public class CSV_Reader {
+    public static void Write(File file) throws IOException {
+        FileReader fr = new FileReader(file);
+      /*  FileWriter fw = new FileWriter(file);
         String[][] body = document.getBody();
         String headers = String.join(",", document.getHeaders());
         fw.write(headers + "\n");
@@ -16,6 +17,6 @@ public class CSV_Writer {
             fw.write(content + "\n");
         }
         fw.flush();
-        fw.close();
+        fw.close();*/
     }
 }

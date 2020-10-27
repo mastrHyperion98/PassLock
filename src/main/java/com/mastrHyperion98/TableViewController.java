@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -89,16 +90,25 @@ public class TableViewController implements Initializable {
             body[i] = line;
         }
         CSV csv = new CSV(header, body);
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        File selectedDirectory = directoryChooser.showDialog(new Stage());
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showSaveDialog(new Stage());
         // use thread for IO as to not slow down or freeze application in the case of a large dataset to write
         new Thread(() -> {
             try {
-                CSV_Writer.Write(selectedDirectory.getAbsolutePath()+"/export.csv", csv);
+                CSV_Writer.Write(selectedFile, csv);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    @FXML
+    void onImport(ActionEvent event){
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter fileExtensions =
+                new FileChooser.ExtensionFilter("CSV", "*.csv");
+        fileChooser.getExtensionFilters().add(fileExtensions);
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
     }
 
     @FXML
