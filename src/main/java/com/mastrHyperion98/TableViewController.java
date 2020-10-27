@@ -91,6 +91,9 @@ public class TableViewController implements Initializable {
         }
         CSV csv = new CSV(header, body);
         FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter fileExtensions =
+                new FileChooser.ExtensionFilter("CSV", "*.csv");
+        fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showSaveDialog(new Stage());
         // use thread for IO as to not slow down or freeze application in the case of a large dataset to write
         new Thread(() -> {
