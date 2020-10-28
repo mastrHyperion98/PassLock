@@ -6,10 +6,8 @@ Created for: PasswordManager project @ https://github.com/mastrHyperion98/Passwo
 Project under the GPL3 license.
 Controls the logic flow of the TableView fxml view.
  */
-import com.mastrHyperion98.struct.CSV;
-import com.mastrHyperion98.struct.CSV_Writer;
-import com.mastrHyperion98.struct.Controller;
-import com.mastrHyperion98.struct.Password;
+import com.mastrHyperion98.Encoder.AES;
+import com.mastrHyperion98.struct.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -80,6 +78,7 @@ public class TableViewController implements Initializable {
 
     @FXML
     void onExport(ActionEvent event){
+        // TODO: Create new stage with extraction progress bar.
         String[] header = new String[]{"domain", "username", "email", "password"};
         int numberElement = entryObservableList.size();
         String[][] body = new String[numberElement][header.length];
@@ -107,11 +106,31 @@ public class TableViewController implements Initializable {
 
     @FXML
     void onImport(ActionEvent event){
+        // TODO: Create new stage with loading progress bar.
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter("CSV", "*.csv");
         fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showOpenDialog(new Stage());
+        try {
+            CSV document = CSV_Reader.Read(selectedFile);
+            String[][] documentBody = document.getBody();
+            for(int line = 0; line < document.getLinesCount();line++){
+                String domain = documentBody[line][0];
+                String email = documentBody[line][1];
+                String username = documentBody[line][2];
+                String password = documentBody[line][3];
+                try {
+                    myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
+                    Password data = myController.getSession().fetchEntry(domain);
+                    entryObservableList.add(data);
+                }catch (SQLException ignored) {
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        data.refresh();
     }
 
     @FXML
