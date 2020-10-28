@@ -35,7 +35,7 @@ public class CSV {
 
     @Override public String toString(){
         StringBuilder csv = new StringBuilder(String.join(",", header) + "\n");
-        for(int line = 0; line <lines-1; line++){
+        for(int line = 0; line <lines; line++){
             csv.append(String.join(",", body[line])).append("\n");
         }
         return csv.toString();

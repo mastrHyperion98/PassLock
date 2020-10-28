@@ -7,7 +7,7 @@ import java.util.Queue;
 import java.util.Scanner;
 
 public class CSV_Reader {
-    public static CSV Write(File file) throws IOException {
+    public static CSV Read(File file) throws IOException {
         Scanner fr = new Scanner(file);
         // get headers
         if(!fr.hasNextLine())
@@ -28,6 +28,7 @@ public class CSV_Reader {
         while(!bodyLines.isEmpty()){
             String[] line = bodyLines.poll();
             body[row] = line;
+            row++;
         }
 
         return new CSV(headers, body);
@@ -36,7 +37,7 @@ public class CSV_Reader {
     private static boolean validateFile(String[] headers){
         boolean isValid = false;
 
-        if(headers.equals(new String[]{"domain", "username", "email", "password"})){
+        if(String.join(",", headers).compareTo("domain,username,email,password") == 0){
            isValid = true;
         }
 
