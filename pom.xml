@@ -41,7 +41,7 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
 <<<<<<< HEAD
-                <version>0.0.3</version>
+                <version>0.0.5</version>
 =======
                 <version>0.0.5</version>
 >>>>>>> master
