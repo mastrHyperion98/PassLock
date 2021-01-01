@@ -45,7 +45,8 @@ public class TableViewController implements Initializable {
     private TableColumn<Object, Object> colUsername;
     @FXML
     private TableColumn<Object, Object> colPassword;
-
+    @FXML
+    private ProgressBar progressBar;
     private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
     private Controller myController;
 
@@ -69,12 +70,15 @@ public class TableViewController implements Initializable {
     // closes the application
     @FXML
     void onExit(ActionEvent event) throws IOException {
-        System.exit(0);
+        if(!progressBar.isVisible()){
+            System.exit(0);
+        }else{
+            //TODO: Error message asking if we want to wait for the current operation to be over.
+        }
     }
 
     @FXML
     void onExport(ActionEvent event){
-        // TODO: Create new stage with extraction progress bar.
         String[] header = new String[]{"domain", "username", "email", "password"};
         int numberElement = entryObservableList.size();
         String[][] body = new String[numberElement][header.length];
@@ -91,6 +95,8 @@ public class TableViewController implements Initializable {
         fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showSaveDialog(new Stage());
         // use thread for IO as to not slow down or freeze application in the case of a large dataset to write
+        // Set the progressBar to visible
+        progressBar.setVisible(true);
         try {
             CSV_Writer.Write(selectedFile, csv);
         } catch (IOException e) {
@@ -100,7 +106,6 @@ public class TableViewController implements Initializable {
 
     @FXML
     void onImport(ActionEvent event){
-        // TODO: Create new stage with loading progress bar.
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter("CSV", "*.csv");
@@ -113,6 +118,8 @@ public class TableViewController implements Initializable {
             int lines =  document.getLinesCount();
             String[][] documentBody = document.getBody();
             // TODO: Create a new message with a progress bar for the import.
+            // Set the progressBar to visible
+            progressBar.setVisible(true);
             // TODO: Convert the content below to a task
             for(int line = 0; line < lines;line++){
                 String domain = documentBody[line][0];
