@@ -26,8 +26,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -92,13 +91,11 @@ public class TableViewController implements Initializable {
         fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showSaveDialog(new Stage());
         // use thread for IO as to not slow down or freeze application in the case of a large dataset to write
-        new Thread(() -> {
-            try {
-                CSV_Writer.Write(selectedFile, csv);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }).start();
+        try {
+            CSV_Writer.Write(selectedFile, csv);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -109,10 +106,15 @@ public class TableViewController implements Initializable {
                 new FileChooser.ExtensionFilter("CSV", "*.csv");
         fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showOpenDialog(new Stage());
+
         try {
+            // Read the file into an CSV document
             CSV document = CSV_Reader.Read(selectedFile);
+            int lines =  document.getLinesCount();
             String[][] documentBody = document.getBody();
-            for(int line = 0; line < document.getLinesCount();line++){
+            // TODO: Create a new message with a progress bar for the import.
+            // TODO: Convert the content below to a task
+            for(int line = 0; line < lines;line++){
                 String domain = documentBody[line][0];
                 String email = documentBody[line][1];
                 String username = documentBody[line][2];
@@ -205,5 +207,4 @@ public class TableViewController implements Initializable {
             throwables.printStackTrace();
         }
     }
-
 }
