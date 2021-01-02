@@ -10,6 +10,7 @@ import com.mastrHyperion98.Encoder.AES;
 import com.mastrHyperion98.struct.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -49,7 +50,8 @@ public class TableViewController implements Initializable {
     private ProgressBar progressBar;
     private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
     private Controller myController;
-
+    // to compensate for lack of precision in float arithmetic
+    private static final double EPSILON = 0.0000005;
     @FXML
     void onOpenDialog(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddEntry.fxml"));
@@ -114,29 +116,52 @@ public class TableViewController implements Initializable {
 
         try {
             // Read the file into an CSV document
-            CSV document = CSV_Reader.Read(selectedFile);
-            int lines =  document.getLinesCount();
-            String[][] documentBody = document.getBody();
-            // TODO: Create a new message with a progress bar for the import.
-            // Set the progressBar to visible
-            progressBar.setVisible(true);
-            // TODO: Convert the content below to a task
-            for(int line = 0; line < lines;line++){
-                String domain = documentBody[line][0];
-                String email = documentBody[line][1];
-                String username = documentBody[line][2];
-                String password = documentBody[line][3];
-                try {
-                    myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
-                    Password data = myController.getSession().fetchEntry(domain);
-                    entryObservableList.add(data);
-                }catch (SQLException ignored) {
-                }
+            if(selectedFile != null) {
+                CSV document = CSV_Reader.Read(selectedFile);
+                final int lines = document.getLinesCount();
+                final String[][] documentBody = document.getBody();
+                // Set the progressBar to visible
+                progressBar.setVisible(true);
+                // create a task to run in parallel
+                final Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        for (int line = 0; line < lines; line++) {
+                            String domain = documentBody[line][0];
+                            String email = documentBody[line][1];
+                            String username = documentBody[line][2];
+                            String password = documentBody[line][3];
+                            try {
+                                myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
+                                Password data = myController.getSession().fetchEntry(domain);
+                                // TODO: Create a thread safe access to entryObservableList
+                                entryObservableList.add(data);
+                            } catch (SQLException ignored) {
+                            }
+                            updateProgress(line+1, lines);
+                        }
+                        return null;
+                    }
+                };
+                // bind the progress of the progress bar to task
+                progressBar.progressProperty().bind(task.progressProperty());
+                // color the bar green when the work is complete.
+                progressBar.progressProperty().addListener(observable -> {
+                    if (progressBar.getProgress() >= 1 - EPSILON) {
+                        progressBar.setStyle("-fx-accent: forestgreen;");
+                        progressBar.setVisible(false);
+                        if(selectedFile != null){
+                            data.refresh();
+                        }
+                    }
+                });
+                final Thread thread = new Thread(task, "task-thread");
+                thread.setDaemon(true);
+                thread.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        data.refresh();
     }
 
     @FXML
