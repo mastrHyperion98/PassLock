@@ -16,9 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
