@@ -10,6 +10,7 @@ import com.mastrHyperion98.Encoder.AES;
 import com.mastrHyperion98.struct.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -85,28 +86,45 @@ public class TableViewController implements Initializable {
 
     @FXML
     void onExport(ActionEvent event){
-        String[] header = new String[]{"domain", "username", "email", "password"};
-        int numberElement = entryObservableList.size();
-        String[][] body = new String[numberElement][header.length];
-
-        for(int i = 0; i < numberElement; i++){
-            Password password = entryObservableList.get(i);
-            String[] line = new String[]{password.getDomain(), password.getUsername(), password.getEmail(), password.getPassword()};
-            body[i] = line;
-        }
-        CSV csv = new CSV(header, body);
+        // Select where to save the file to
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter("CSV", "*.csv");
         fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showSaveDialog(new Stage());
-        // use thread for IO as to not slow down or freeze application in the case of a large dataset to write
-        // Set the progressBar to visible
-        try {
-            CSV_Writer.Write(selectedFile, csv);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        String[] header = new String[]{"domain", "username", "email", "password"};
+        final int lines = entryObservableList.size();
+        String[][] body = new String[lines][header.length];
+        final ObservableList<Password> documentBody = entryObservableList;
+        progressBar.setVisible(true);
+        // Create a new task
+        final Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                for(int i = 0; i <lines; i++){
+                    Password password = entryObservableList.get(i);
+                    String[] line = new String[]{password.getDomain(), password.getUsername(), password.getEmail(), password.getPassword()};
+                    body[i] = line;
+                    updateProgress(i+1, lines);
+                }
+
+                CSV csv = new CSV(header, body);
+                try {
+                    CSV_Writer.Write(selectedFile, csv);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+        };
+
+        // bind the progress of the progress bar to task
+        progressBar.progressProperty().bind(task.progressProperty());
+        final Thread thread = new Thread(task, "task-thread");
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
@@ -143,21 +161,13 @@ public class TableViewController implements Initializable {
                             }
                             updateProgress(line+1, lines);
                         }
+                        data.refresh();
                         return null;
                     }
                 };
                 // bind the progress of the progress bar to task
                 progressBar.progressProperty().bind(task.progressProperty());
                 // color the bar green when the work is complete.
-                progressBar.progressProperty().addListener(observable -> {
-                    if (progressBar.getProgress() >= 1 - EPSILON) {
-                        progressBar.setStyle("-fx-accent: forestgreen;");
-                        progressBar.setVisible(false);
-                        if(selectedFile != null){
-                            data.refresh();
-                        }
-                    }
-                });
                 final Thread thread = new Thread(task, "task-thread");
                 thread.setDaemon(true);
                 thread.start();
@@ -241,6 +251,14 @@ public class TableViewController implements Initializable {
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(item);
         data.setContextMenu(menu);
+
+        // add a listener to the progressProperty
+        progressBar.progressProperty().addListener(observable -> {
+            if (progressBar.getProgress() >= 1 - EPSILON) {
+                progressBar.setVisible(false);
+            }
+        });
+
     }
     public void setController(Controller _controller){
         myController = _controller;
