@@ -10,7 +10,9 @@ import com.mastrHyperion98.Encoder.AES;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class Password {
+import java.io.Serializable;
+
+public class Password implements Serializable{
     private SimpleIntegerProperty _id;
     private SimpleStringProperty _domain;
     private SimpleStringProperty _username;
@@ -67,10 +69,10 @@ public class Password {
     }
 
     public String getPassword(){
-        return AES.decrypt(_password.get());
+        return _password.get();
     }
 
     public void setPassword(String password){
-        _password.set(AES.encrypt(password));
+        _password.set(password);
     }
 }

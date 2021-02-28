@@ -233,7 +233,7 @@ public class Session {
             String email = results.getString(3);
             String username = results.getString(4);
             String password = results.getString(5);
-            Password entry = new Password(id,domain,username,email,password);
+            Password entry = new Password(id,domain,username,email,AES.decrypt(password));
             list.add(entry);
         }
         disconnect();
