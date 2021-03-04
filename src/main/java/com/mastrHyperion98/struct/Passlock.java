@@ -20,7 +20,6 @@ public class Passlock implements Serializable {
 
     public void write(String password, File file) throws IOException {
         // Write serializable object
-        System.out.println("WRITING");
         byte[] decodeKey = Base64.getDecoder().decode(password);
         SealedObject object = AES.encryptObject(this, new SecretKeySpec(decodeKey, 0, decodeKey.length, "AES"));
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
@@ -34,6 +33,7 @@ public class Passlock implements Serializable {
         ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
         SealedObject encryptedObject = (SealedObject) in.readObject();
         Passlock decryptedObject = (Passlock) AES.decryptObject(encryptedObject, new SecretKeySpec(decodeKey, 0, decodeKey.length, "AES"));
+        in.close();
         return decryptedObject;
     }
 

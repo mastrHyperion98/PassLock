@@ -83,7 +83,7 @@ public class TableViewController implements Initializable {
         File selectedFile = fileChooser.showSaveDialog(new Stage());
 
         final int lines = entryObservableList.size();
-        final ObservableList<Data> document = entryObservableList;
+        final List<Data> document = new LinkedList<>(entryObservableList);
         final List<SerializableData> list = new LinkedList<SerializableData>();
         // Create a new task
         final Task<Void> task = new Task<Void>() {

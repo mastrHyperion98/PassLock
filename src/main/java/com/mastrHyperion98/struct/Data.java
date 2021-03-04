@@ -32,14 +32,14 @@ public class Data{
         _username = new SimpleStringProperty("NA");
         _password = new SimpleStringProperty(password);
     }
-/*
+
     public Data(SerializableData data){
         _id = new SimpleIntegerProperty(data.getId());
         _domain=new SimpleStringProperty(data.getDomain());
         _email=new SimpleStringProperty(data.getEmail());
         _username = new SimpleStringProperty(data.getUsername());
         _password = new SimpleStringProperty(data.getPassword());
-    }*/
+    }
 
     // list of setters and getters for every field
     public int getId(){
