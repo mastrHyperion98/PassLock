@@ -6,7 +6,9 @@ Created for: PasswordManager project @ https://github.com/mastrHyperion98/Passwo
 Project under the GPL3 license.
 Controls the logic flow of the TableView fxml view.
  */
+import com.mastrHyperion98.Encoder.AES;
 import com.mastrHyperion98.struct.*;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -29,6 +31,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -70,7 +73,8 @@ public class TableViewController implements Initializable {
 
     // closes the application
     @FXML
-    void onExit(ActionEvent event) throws IOException {
+    void onExit(ActionEvent event){
+        System.exit(0);
     }
 
     @FXML
@@ -99,7 +103,7 @@ public class TableViewController implements Initializable {
 
                 try {
                     // write
-                    passlock.write("Panther", selectedFile);
+                    passlock.write(selectedFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -116,45 +120,42 @@ public class TableViewController implements Initializable {
     void onImport(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
-                new FileChooser.ExtensionFilter("CSV", "*.csv");
+                new FileChooser.ExtensionFilter("passpad", "*.pss");
         fileChooser.getExtensionFilters().add(fileExtensions);
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
-/*
-        try {
-            // Read the file into an CSV document
-            if(selectedFile != null) {
-                // create a task to run in parallel
-                final Task<Void> task = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        for (int line = 0; line < lines; line++) {
-                            String domain = documentBody[line][0];
-                            String email = documentBody[line][1];
-                            String username = documentBody[line][2];
-                            String password = documentBody[line][3];
-                            try {
-                                myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
-                                Data data = myController.getSession().fetchEntry(domain);
-                                // TODO: Create a thread safe access to entryObservableList or lock Add, edit and delete
-                                entryObservableList.add(data);
-                            } catch (SQLException ignored) {
-                            }
-                            updateProgress(line+1, lines);
-                        }
-                        data.refresh();
-                        return null;
+        final File selectedFile = fileChooser.showOpenDialog(new Stage());
+
+        // Read the file into an CSV document
+        if(selectedFile != null) {
+            // create a task to run in parallel
+            final Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    final Passlock passlock = Passlock.read(selectedFile);
+                    int lines = passlock.getSize();
+                    List<SerializableData> list = passlock.getPasswords();
+                    Iterator<SerializableData> it = list.iterator();
+                    int count = 0;
+                    while(it.hasNext()){
+                        SerializableData next = it.next();
+                        String domain = next.getDomain();
+                        String email = next.getEmail();
+                        String username = next.getUsername();
+                        String password = next.getPassword();
+                        myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
+                        Data data = myController.getSession().fetchEntry(domain);
+                        entryObservableList.add(data);
+                        count++;
+                        updateProgress(count+1, count);
                     }
-                };
-                // bind the progress of the progress bar to task
-                progressBar.progressProperty().bind(task.progressProperty());
-                // color the bar green when the work is complete.
-                final Thread thread = new Thread(task, "task-thread");
-                thread.setDaemon(true);
-                thread.start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+                    data.refresh();
+                    return null;
+                }
+            };
+            // color the bar green when the work is complete.
+            final Thread thread = new Thread(task, "task-thread");
+            thread.setDaemon(true);
+            thread.start();
+        }
     }
 
     @FXML

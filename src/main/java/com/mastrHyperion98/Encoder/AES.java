@@ -67,7 +67,7 @@ public class AES {
         Object decryptedObject = null;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+            cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
             decryptedObject = object.getObject(cipher);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
