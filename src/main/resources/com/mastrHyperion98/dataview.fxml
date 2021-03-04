@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
@@ -41,16 +40,11 @@
             </TableView>
             <VBox prefHeight="525.0" prefWidth="201.0" stylesheets="@style/theme.css">
                <children>
-                  <VBox id="controlPanel" alignment="CENTER" prefHeight="492.0" prefWidth="201.0" stylesheets="@style/theme.css">
+                  <VBox id="controlPanel" alignment="CENTER" prefHeight="526.0" prefWidth="201.0" stylesheets="@style/theme.css">
                      <children>
                         <Button mnemonicParsing="false" onAction="#onOpenDialog" prefHeight="47.0" prefWidth="143.0" text="Add" />
                         <Button mnemonicParsing="false" onAction="#onUpdateDialog" prefHeight="47.0" prefWidth="143.0" text="Edit" />
                         <Button mnemonicParsing="false" onAction="#onDeleteEntry" prefHeight="47.0" prefWidth="143.0" text="Delete" />
-                     </children>
-                  </VBox>
-                  <VBox id="controlPanel" alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="39.0" prefWidth="201.0" stylesheets="@style/theme.css">
-                     <children>
-                        <ProgressBar fx:id="progressBar" prefWidth="200.0" progress="0.0" visible="false" />
                      </children>
                   </VBox>
                </children>
