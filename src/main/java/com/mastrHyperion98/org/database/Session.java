@@ -1,7 +1,7 @@
 package com.mastrHyperion98.org.database;
 /*
 Created by: Steven Smith
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passlock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
 Session is a class that controls and monitors our database access. It makes the required verification to ensure that

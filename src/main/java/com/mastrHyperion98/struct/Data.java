@@ -1,7 +1,7 @@
 package com.mastrHyperion98.struct;
 /*
 Created by: Steven Smith
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passlock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
 Data is a object that holds the information necessary to display in the table view element.

@@ -3,7 +3,7 @@ package com.mastrHyperion98.Encoder;
 /*
 Created by: Steven Smith
 Created on: 2020-06-23'
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passslock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
 AES Encoder is a class used to encrypt and decrypt string using AES 256 encryption standards.
