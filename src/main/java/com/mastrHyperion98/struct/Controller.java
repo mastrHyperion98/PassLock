@@ -1,7 +1,7 @@
 package com.mastrHyperion98.struct;
 /*
 Created by: Steven Smith
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passlock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
 Controller contains all the actions that is available to the user from the user interface.
@@ -18,8 +18,6 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableEntryException;
 import java.security.cert.CertificateException;
-import java.util.Scanner;
-
 
 public class Controller {
     private String databse;
@@ -27,7 +25,7 @@ public class Controller {
     private final File data_directory;
     private final File config_directory;
     private final File app_directory;
-    private final String FOLDER_NAME="PassLock";
+    private final String FOLDER_NAME="Dev";
     private boolean isSecretKeyLoaded;
     private char[] key_store_password = "PLACEHOLDER".toCharArray();
 

@@ -3,12 +3,13 @@ package com.mastrHyperion98.Encoder;
 /*
 Created by: Steven Smith
 Created on: 2020-06-23'
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passslock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
 AES Encoder is a class used to encrypt and decrypt string using AES 256 encryption standards.
  */
 
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
@@ -46,6 +47,36 @@ public class AES {
         return null;
     }
 
+    public static SealedObject encryptObject(Serializable object, SecretKeySpec key){
+        Cipher cipher = null;
+        SealedObject encryptedObject = null;
+        try {
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, key, ivspec);
+            encryptedObject = new SealedObject(object, cipher);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        }finally{
+            return encryptedObject;
+        }
+    }
+    public static Object decryptObject(SealedObject object, SecretKeySpec key){
+        Cipher cipher = null;
+        Object decryptedObject = null;
+        try {
+            cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, key, ivspec);
+            decryptedObject = object.getObject(cipher);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (NoSuchPaddingException e) {
+            e.printStackTrace();
+        }finally{
+            return decryptedObject;
+        }
+    }
     /**
      *
      * @param strToDecrypt the string the that will be decrypted

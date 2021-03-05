@@ -34,7 +34,7 @@ public class LoginController implements Initializable {
 
         if(passwordField.getText().equals("")) {
            // actiontarget.setFill(Color.RED);
-           // actiontarget.setText("ERROR: Invalid Input. Password cannot be empty.");
+           // actiontarget.setText("ERROR: Invalid Input. Data cannot be empty.");
             return;
         }
         // validate if password is valid.
@@ -49,7 +49,7 @@ public class LoginController implements Initializable {
             main_stage.setMinHeight(550);
         }else{
             //actiontarget.setFill(Color.RED);
-            System.out.println("ERROR: Invalid Input. Password is incorrect.");
+            System.out.println("ERROR: Invalid Input. Data is incorrect.");
         }
     }
     public void setController(Controller _controller){

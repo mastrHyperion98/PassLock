@@ -1,16 +1,16 @@
 package com.mastrHyperion98.struct;
 /*
 Created by: Steven Smith
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passlock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
-Password is a object that holds the information necessary to display in the table view element.
+Data is a object that holds the information necessary to display in the table view element.
  */
-import com.mastrHyperion98.Encoder.AES;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
-public class Password {
+
+public class Data{
     private SimpleIntegerProperty _id;
     private SimpleStringProperty _domain;
     private SimpleStringProperty _username;
@@ -18,19 +18,27 @@ public class Password {
     private SimpleStringProperty _password;
 
 
-    public Password(int id, String domain, String username, String email, String password){
+    public Data(int id, String domain, String username, String email, String password){
        _id = new SimpleIntegerProperty(id);
        _domain=new SimpleStringProperty(domain);
        _email=new SimpleStringProperty(email);
        _username = new SimpleStringProperty(username);
        _password = new SimpleStringProperty(password);
     }
-    public Password(int id, String domain, String email, String password){
+    public Data(int id, String domain, String email, String password){
         _id = new SimpleIntegerProperty(id);
         _domain=new SimpleStringProperty(domain);
         _email=new SimpleStringProperty(email);
         _username = new SimpleStringProperty("NA");
         _password = new SimpleStringProperty(password);
+    }
+
+    public Data(SerializableData data){
+        _id = new SimpleIntegerProperty(data.getId());
+        _domain=new SimpleStringProperty(data.getDomain());
+        _email=new SimpleStringProperty(data.getEmail());
+        _username = new SimpleStringProperty(data.getUsername());
+        _password = new SimpleStringProperty(data.getPassword());
     }
 
     // list of setters and getters for every field
@@ -67,10 +75,10 @@ public class Password {
     }
 
     public String getPassword(){
-        return AES.decrypt(_password.get());
+        return _password.get();
     }
 
     public void setPassword(String password){
-        _password.set(AES.encrypt(password));
+        _password.set(password);
     }
 }

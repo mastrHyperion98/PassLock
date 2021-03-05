@@ -8,9 +8,9 @@ Controls the logic flow of the TableView fxml view.
  */
 import com.mastrHyperion98.Encoder.AES;
 import com.mastrHyperion98.struct.*;
+import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,12 +31,15 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class TableViewController implements Initializable {
 
     @FXML
-    private TableView<Password> data;
+    private TableView<Data> data;
     @FXML
     private TableColumn<Object, Object> colId;
     @FXML
@@ -47,15 +50,12 @@ public class TableViewController implements Initializable {
     private TableColumn<Object, Object> colUsername;
     @FXML
     private TableColumn<Object, Object> colPassword;
-    @FXML
-    private ProgressBar progressBar;
-    private ObservableList<Password> entryObservableList = FXCollections.observableArrayList();
+    private ObservableList<Data> entryObservableList = FXCollections.observableArrayList();
     private Controller myController;
     // to compensate for lack of precision in float arithmetic
     private static final double EPSILON = 0.0000005;
     @FXML
     void onOpenDialog(ActionEvent event) throws IOException {
-        if(!progressBar.isVisible()) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AddEntry.fxml"));
             Parent parent = fxmlLoader.load();
             AddEntryDialogController dialogController = fxmlLoader.<AddEntryDialogController>getController();
@@ -69,19 +69,12 @@ public class TableViewController implements Initializable {
             stage.setScene(scene);
             stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
             stage.showAndWait();
-        }else{
-            showError("Operation in progress! Please wait until it is completed!");
-        }
     }
 
     // closes the application
     @FXML
-    void onExit(ActionEvent event) throws IOException {
-        if(!progressBar.isVisible()){
-            System.exit(0);
-        }else{
-            showError("Operation in progress! Please wait until it is completed!");
-        }
+    void onExit(ActionEvent event){
+        System.exit(0);
     }
 
     @FXML
@@ -89,29 +82,28 @@ public class TableViewController implements Initializable {
         // Select where to save the file to
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
-                new FileChooser.ExtensionFilter("CSV", "*.csv");
+                new FileChooser.ExtensionFilter("passpad", "*.pss");
         fileChooser.getExtensionFilters().add(fileExtensions);
         File selectedFile = fileChooser.showSaveDialog(new Stage());
 
-        String[] header = new String[]{"domain", "username", "email", "password"};
         final int lines = entryObservableList.size();
-        String[][] body = new String[lines][header.length];
-        final ObservableList<Password> documentBody = entryObservableList;
-        progressBar.setVisible(true);
+        final List<Data> document = new LinkedList<>(entryObservableList);
+        final List<SerializableData> list = new LinkedList<SerializableData>();
         // Create a new task
         final Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
                 for(int i = 0; i <lines; i++){
-                    Password password = entryObservableList.get(i);
-                    String[] line = new String[]{password.getDomain(), password.getUsername(), password.getEmail(), password.getPassword()};
-                    body[i] = line;
+                    Data data = entryObservableList.get(i);
+                    list.add(new SerializableData(data));
                     updateProgress(i+1, lines);
                 }
 
-                CSV csv = new CSV(header, body);
+                Passlock passlock = new Passlock(list);
+
                 try {
-                    CSV_Writer.Write(selectedFile, csv);
+                    // write
+                    passlock.write(selectedFile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -119,9 +111,6 @@ public class TableViewController implements Initializable {
                 return null;
             }
         };
-
-        // bind the progress of the progress bar to task
-        progressBar.progressProperty().bind(task.progressProperty());
         final Thread thread = new Thread(task, "task-thread");
         thread.setDaemon(true);
         thread.start();
@@ -131,90 +120,74 @@ public class TableViewController implements Initializable {
     void onImport(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
-                new FileChooser.ExtensionFilter("CSV", "*.csv");
+                new FileChooser.ExtensionFilter("passpad", "*.pss");
         fileChooser.getExtensionFilters().add(fileExtensions);
-        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        final File selectedFile = fileChooser.showOpenDialog(new Stage());
 
-        try {
-            // Read the file into an CSV document
-            if(selectedFile != null) {
-                CSV document = CSV_Reader.Read(selectedFile);
-                final int lines = document.getLinesCount();
-                final String[][] documentBody = document.getBody();
-                // Set the progressBar to visible
-                progressBar.setVisible(true);
-                // create a task to run in parallel
-                final Task<Void> task = new Task<Void>() {
-                    @Override
-                    protected Void call() throws Exception {
-                        for (int line = 0; line < lines; line++) {
-                            String domain = documentBody[line][0];
-                            String email = documentBody[line][1];
-                            String username = documentBody[line][2];
-                            String password = documentBody[line][3];
-                            try {
-                                myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
-                                Password data = myController.getSession().fetchEntry(domain);
-                                // TODO: Create a thread safe access to entryObservableList or lock Add, edit and delete
-                                entryObservableList.add(data);
-                            } catch (SQLException ignored) {
-                            }
-                            updateProgress(line+1, lines);
-                        }
-                        data.refresh();
-                        return null;
+        // Read the file into an CSV document
+        if(selectedFile != null) {
+            // create a task to run in parallel
+            final Task<Void> task = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    final Passlock passlock = Passlock.read(selectedFile);
+                    int lines = passlock.getSize();
+                    List<SerializableData> list = passlock.getPasswords();
+                    Iterator<SerializableData> it = list.iterator();
+                    int count = 0;
+                    while(it.hasNext()){
+                        SerializableData next = it.next();
+                        String domain = next.getDomain();
+                        String email = next.getEmail();
+                        String username = next.getUsername();
+                        String password = next.getPassword();
+                        myController.getSession().writeEntry(domain, email, username, AES.encrypt(password));
+                        Data data = myController.getSession().fetchEntry(domain);
+                        entryObservableList.add(data);
+                        count++;
+                        updateProgress(count+1, count);
                     }
-                };
-                // bind the progress of the progress bar to task
-                progressBar.progressProperty().bind(task.progressProperty());
-                // color the bar green when the work is complete.
-                final Thread thread = new Thread(task, "task-thread");
-                thread.setDaemon(true);
-                thread.start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+                    data.refresh();
+                    return null;
+                }
+            };
+            // color the bar green when the work is complete.
+            final Thread thread = new Thread(task, "task-thread");
+            thread.setDaemon(true);
+            thread.start();
         }
     }
 
     @FXML
     void onDeleteEntry(ActionEvent event){
-        if(!progressBar.isVisible()) {
-            Password item = data.getSelectionModel().getSelectedItem();
-            if (item == null)
-                return;
-            boolean success = myController.getSession().deleteEntry(item.getId());
-            if (success)
-                data.getItems().removeAll(item);
-        }else{
-            showError("Operation in progress! Please wait until it is completed!");
-        }
+        Data item = data.getSelectionModel().getSelectedItem();
+        if (item == null)
+            return;
+        boolean success = myController.getSession().deleteEntry(item.getId());
+        if (success)
+            data.getItems().removeAll(item);
     }
 
     @FXML
     void onUpdateDialog(ActionEvent event) throws IOException {
-        if(!progressBar.isVisible()) {
-            Password item = data.getSelectionModel().getSelectedItem();
-            if (item == null)
-                return;
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditEntry.fxml"));
-            Parent parent = fxmlLoader.load();
-            UpdateEntryController dialogController = fxmlLoader.<UpdateEntryController>getController();
-            dialogController.setController(myController);
-            dialogController.setPassword(item);
-            Scene scene = new Scene(parent, 550, 300);
-            Stage stage = new Stage();
-            stage.setResizable(false);
-            stage.setTitle("PassLock: Edit");
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
-            stage.showAndWait();
+        Data item = data.getSelectionModel().getSelectedItem();
+        if (item == null)
+            return;
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EditEntry.fxml"));
+        Parent parent = fxmlLoader.load();
+        UpdateEntryController dialogController = fxmlLoader.<UpdateEntryController>getController();
+        dialogController.setController(myController);
+        dialogController.setPassword(item);
+        Scene scene = new Scene(parent, 550, 300);
+        Stage stage = new Stage();
+        stage.setResizable(false);
+        stage.setTitle("PassLock: Edit");
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.getIcons().add(new Image(App.class.getResourceAsStream("icon/icons8-lock-64.png")));
+        stage.showAndWait();
 
-            data.refresh();
-        }else{
-            showError("Operation in progress! Please wait until it is completed!");
-        }
+        data.refresh();
     }
 
     @Override
@@ -251,14 +224,6 @@ public class TableViewController implements Initializable {
         ContextMenu menu = new ContextMenu();
         menu.getItems().add(item);
         data.setContextMenu(menu);
-
-        // add a listener to the progressProperty
-        progressBar.progressProperty().addListener(observable -> {
-            if (progressBar.getProgress() >= 1 - EPSILON) {
-                progressBar.setVisible(false);
-            }
-        });
-
     }
     public void setController(Controller _controller){
         myController = _controller;
@@ -266,6 +231,7 @@ public class TableViewController implements Initializable {
             entryObservableList.addAll(myController.getSession().fetchEntries());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            System.out.println("ERROR WITH CONTROLLER");
         }
     }
 

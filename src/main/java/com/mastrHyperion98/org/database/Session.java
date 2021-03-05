@@ -1,7 +1,7 @@
 package com.mastrHyperion98.org.database;
 /*
 Created by: Steven Smith
-Created for: PasswordManager project @ https://github.com/mastrHyperion98/PasswordManager
+Created for: Passlock project @ https://github.com/mastrHyperion98/Passlock
 
 Project under the GPL3 license.
 Session is a class that controls and monitors our database access. It makes the required verification to ensure that
@@ -9,7 +9,8 @@ all connections to the database are authorized.
  */
 
 import com.mastrHyperion98.Encoder.AES;
-import com.mastrHyperion98.struct.Password;
+import com.mastrHyperion98.struct.Data;
+
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -212,16 +213,16 @@ public class Session {
 
     /**
      *
-     * @return a List of all Password object stored in the database.
+     * @return a List of all Data object stored in the database.
      * @throws SQLException throws an exception if the a SQL operation fails.
      */
-    public List<Password> fetchEntries() throws SQLException {
+    public List<Data> fetchEntries() throws SQLException {
         try {
             Access();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        List<Password> list = new LinkedList<>();
+        List<Data> list = new LinkedList<>();
 
         Statement statement = connection.createStatement();
         ResultSet results = statement.executeQuery("SELECT id, domain, email, username, password FROM Password where domain!=\"__master__\"");
@@ -233,21 +234,21 @@ public class Session {
             String email = results.getString(3);
             String username = results.getString(4);
             String password = results.getString(5);
-            Password entry = new Password(id,domain,username,email,password);
+            Data entry = new Data(id,domain,username,email,AES.decrypt(password));
             list.add(entry);
         }
         disconnect();
         return list;
     }
 
-    /** A function that accepts a domain name as its parameter and returns a Password object if a matched is found.
+    /** A function that accepts a domain name as its parameter and returns a Data object if a matched is found.
      * Otherwise returns null or throws an exception.
      *
      * @param domain a String denoting the name of the service to be fetched.
-     * @return the Password Object found with the given domain name.
+     * @return the Data Object found with the given domain name.
      * @throws SQLException throws an SQLException if an invalid query is made (domain not in database).
      */
-    public Password fetchEntry(String domain) throws SQLException {
+    public Data fetchEntry(String domain) throws SQLException {
         if(domain == "__master__")
             return null;
 
@@ -265,7 +266,7 @@ public class Session {
         String email = results.getString(3);
         String username = results.getString(4);
         String password = results.getString(5);
-        Password entry = new Password(id,_domain,username,email,password);
+        Data entry = new Data(id,_domain,username,email,password);
         disconnect();
         return entry;
     }

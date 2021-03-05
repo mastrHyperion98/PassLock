@@ -9,13 +9,14 @@ Controller for AddEntry FXML. Controls the actions of each element of the scene.
  */
 
 import com.mastrHyperion98.Encoder.AES;
+import com.mastrHyperion98.struct.Data;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.mastrHyperion98.struct.Password;
+
 import java.sql.SQLException;
 
 public class AddEntryDialogController   {
@@ -28,7 +29,7 @@ public class AddEntryDialogController   {
     @FXML
     private TextField tfPassword;
 
-    private ObservableList<Password> appMainObservableList;
+    private ObservableList<Data> appMainObservableList;
     private com.mastrHyperion98.struct.Controller myController;
     private final int PASSWORD_GEN_LENGTH=32;
 
@@ -42,7 +43,7 @@ public class AddEntryDialogController   {
 
         try {
             myController.getSession().writeEntry(domain,email,username,AES.encrypt(password));
-            Password data = myController.getSession().fetchEntry(domain);
+            Data data = myController.getSession().fetchEntry(domain);
             appMainObservableList.add(data);
         } catch (SQLException throwables) {
             System.out.println("ERROR--DUPLICATE");
@@ -90,7 +91,7 @@ public class AddEntryDialogController   {
      *
      * @param observableList list of Passwords in the database/table
      */
-    public void setAppMainObservableList(ObservableList<Password> observableList) {
+    public void setAppMainObservableList(ObservableList<Data> observableList) {
        appMainObservableList = observableList;
     }
 

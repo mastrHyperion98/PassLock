@@ -9,12 +9,12 @@ Controls Update Entry view.
  */
 
 import com.mastrHyperion98.struct.Controller;
+import com.mastrHyperion98.struct.Data;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import com.mastrHyperion98.struct.Password;
 
 public class UpdateEntryController   {
     @FXML
@@ -28,21 +28,21 @@ public class UpdateEntryController   {
 
     private Controller myController;
     private final int PASSWORD_GEN_LENGTH=32;
-    private Password password_entry;
+    private Data data_entry;
 
     @FXML
     void btnUpdateClicked(ActionEvent event) {
         String domain = tfDomain.getText();
-        int id = password_entry.getId();
+        int id = data_entry.getId();
         String username = tfUsername.getText();
         String email = tfEmail.getText();
         String password = tfPassword.getText();
 
         boolean success = myController.getSession().editEntry(id,domain,email,username,password);
         if(success) {
-            password_entry.setUsername(username);
-            password_entry.setEmail(email);
-            password_entry.setPassword(password);
+            data_entry.setUsername(username);
+            data_entry.setEmail(email);
+            data_entry.setPassword(password);
             closeStage(event);
         }
     }
@@ -83,12 +83,12 @@ public class UpdateEntryController   {
         myController = _controller;
     }
 
-    public void setPassword(Password password){
-        password_entry=password;
-        tfDomain.setText(password.getDomain());
-        tfEmail.setText(password.getEmail());
-        tfUsername.setText(password.getUsername());
-        tfPassword.setText(password.getPassword());
+    public void setPassword(Data data){
+        data_entry = data;
+        tfDomain.setText(data.getDomain());
+        tfEmail.setText(data.getEmail());
+        tfUsername.setText(data.getUsername());
+        tfPassword.setText(data.getPassword());
         // disable editing on the domain
         tfDomain.setEditable(false);
     }
