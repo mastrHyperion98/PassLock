@@ -25,7 +25,7 @@ public class Controller {
     private final File data_directory;
     private final File config_directory;
     private final File app_directory;
-    private final String FOLDER_NAME="Dev";
+    private final String FOLDER_NAME="Passlock";
     private boolean isSecretKeyLoaded;
     private char[] key_store_password = "PLACEHOLDER".toCharArray();
 
