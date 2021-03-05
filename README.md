@@ -5,12 +5,17 @@ PassLock is a local database management tool for managing services and their ass
 <strong>Please Note:</strong>
 Application settings, keys and database are stored under {User}/PassLock directory. where {User} replaces the path to your user directory. 
 
+# Motivation
+
+In late 2019 I woke up to several emails from Netflix saying that my account had been compromised and the email and password had been changed. Netflix support was quick to return control of the account back to me. This is what motivated me to develop this application. I use a lot of various services whether it be Paypal, Netflix, Funimation, or Steam. Remembering unique passwords for everything can be difficult. Also, making up a safe password can also be a challenge. This application aims to address this. 
+
 # Targeted Platforms
-* Windows and Linux (Support coming soon I just need to figure out how to package the application into an AppImage... I still want to release the application as a self contained AppImage, but for now i'll be bundling the custom jre and jar file in a zip archive with a bash launch script that should work across linux x86_64 environments).
+* Windows 
+* Linux (SOON)
 
 # Releases
 
-You can find the latest windows installer for the software under releases. Their currently is no Linux native image of the application, and since I do not own a Mac i cannot make a Mac Os version. The windows Installer should be fixed as per the latest release. 
+You can find the latest windows installer for the software under releases. The application versioning is determined by the progress I make on the features I intend on shipping with the application.
 
 # Development
 
