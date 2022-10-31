@@ -78,7 +78,7 @@ public class TableViewController implements Initializable {
     }
 
     @FXML
-    void onExport(ActionEvent event){
+    synchronized void onExport(ActionEvent event){
         // Select where to save the file to
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
@@ -93,6 +93,7 @@ public class TableViewController implements Initializable {
         final Task<Void> task = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
+                System.out.println("ENTERED");
                 for(int i = 0; i <lines; i++){
                     Data data = entryObservableList.get(i);
                     list.add(new SerializableData(data));
@@ -117,7 +118,7 @@ public class TableViewController implements Initializable {
     }
 
     @FXML
-    void onImport(ActionEvent event){
+    synchronized void onImport(ActionEvent event){
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter fileExtensions =
                 new FileChooser.ExtensionFilter("passpad", "*.pss");
